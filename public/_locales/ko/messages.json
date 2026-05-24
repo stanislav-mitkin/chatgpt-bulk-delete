@@ -1,5 +1,5 @@
 {
-  "ext_name":        { "message": "ChatGPT 일괄 삭제" },
+  "ext_name":        { "message": "ChatGPT Chat Cleaner" },
   "ext_description": { "message": "ChatGPT 대화를 여러 개 선택하여 일괄 삭제" },
 
   "idle_hint":  { "message": "일괄 선택하려면" },
@@ -30,5 +30,5 @@
 
   "enter":    { "message": "선택 모드 시작" },
   "exitMode": { "message": "선택 모드 종료" },
-  "branding": { "message": "ChatGPT 일괄 삭제" }
+  "branding": { "message": "ChatGPT Chat Cleaner" }
 }

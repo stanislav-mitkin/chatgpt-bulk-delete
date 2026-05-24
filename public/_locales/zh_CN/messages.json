@@ -1,5 +1,5 @@
 {
-  "ext_name":        { "message": "ChatGPT 批量删除" },
+  "ext_name":        { "message": "ChatGPT Chat Cleaner" },
   "ext_description": { "message": "批量选择并删除 ChatGPT 对话" },
 
   "idle_hint":  { "message": "批量选择" },
@@ -30,5 +30,5 @@
 
   "enter":    { "message": "进入选择模式" },
   "exitMode": { "message": "退出选择模式" },
-  "branding": { "message": "ChatGPT 批量删除" }
+  "branding": { "message": "ChatGPT Chat Cleaner" }
 }

@@ -1,4 +1,4 @@
-# ChatGPT Keyboard Bulk Delete
+# ChatGPT Chat Cleaner
 
 Minimal Chrome extension for bulk-deleting ChatGPT conversations via keyboard. No popups, no buttons — just hotkeys.
 

@@ -18,7 +18,7 @@ Select and delete multiple ChatGPT conversations at once. Clean up your chat his
 
 **Tired of deleting ChatGPT conversations one at a time?**
 
-ChatGPT Bulk Delete adds a fast, keyboard-friendly selection mode directly into the ChatGPT sidebar. Pick any number of chats, then delete them all with a single confirmation — no page reloads, no extra clicks.
+ChatGPT Chat Cleaner adds a fast, keyboard-friendly selection mode directly into the ChatGPT sidebar. Pick any number of chats, then delete them all with a single confirmation — no page reloads, no extra clicks.
 
 ---
 

@@ -1,5 +1,5 @@
 {
-  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_name":        { "message": "ChatGPT Chat Cleaner" },
   "ext_description": { "message": "Sélectionnez et supprimez en masse des conversations ChatGPT" },
 
   "idle_hint":  { "message": "pour sélection multiple" },
@@ -30,5 +30,5 @@
 
   "enter":    { "message": "Entrer en mode sélection" },
   "exitMode": { "message": "Quitter le mode sélection" },
-  "branding": { "message": "ChatGPT Bulk Delete" }
+  "branding": { "message": "ChatGPT Chat Cleaner" }
 }

@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-bulk-delete",
   "version": "0.1.0",
-  "description": "Keyboard-driven bulk delete for ChatGPT conversations",
+  "description": "Keyboard-driven chat cleaner for ChatGPT conversations",
   "scripts": {
     "dev": "wxt",
     "build": "wxt build",
