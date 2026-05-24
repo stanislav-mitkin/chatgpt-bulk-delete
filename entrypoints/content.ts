@@ -5,7 +5,11 @@ import { refreshClasses } from '../modules/selection';
 import { initOverlay, destroyOverlay } from '../modules/overlay';
 
 export default defineContentScript({
-  matches: ['https://chatgpt.com/*', 'https://chat.openai.com/*'],
+  matches: [
+    'https://chatgpt.com/*',
+    'https://chat.openai.com/*',
+    'http://localhost:3333/*',   // local mock page for Playwright tests
+  ],
   main() {
     injectStyles();
     initOverlay();

@@ -7,7 +7,6 @@
     "build": "wxt build",
     "zip": "wxt zip",
     "postinstall": "wxt prepare",
-    "auth": "playwright test --config playwright.auth.config.ts",
     "test": "pnpm build && playwright test"
   },
   "devDependencies": {

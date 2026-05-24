@@ -10,6 +10,7 @@ export default defineConfig({
     host_permissions: [
       'https://chatgpt.com/*',
       'https://chat.openai.com/*',
+      'http://localhost:3333/*',
     ],
     icons: {
       16: 'icon-16.png',

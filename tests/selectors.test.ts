@@ -1,186 +1,187 @@
-import { test, expect, type BrowserContext } from '@playwright/test';
-import fs from 'fs';
-import { launchRealChrome, PROFILE_DIR, CHATGPT_URL } from './browser-helper';
+import { test, expect, chromium, type BrowserContext } from '@playwright/test';
+import path from 'path';
 
-function launchWithExtension(): Promise<BrowserContext> {
-  if (!fs.existsSync(PROFILE_DIR)) {
-    throw new Error(
-      'No saved session found. Run auth setup first:\n  pnpm auth'
-    );
-  }
-  return launchRealChrome(PROFILE_DIR);
+const EXTENSION_PATH = path.resolve(__dirname, '../.output/chrome-mv3');
+const MOCK_PAGE = 'http://localhost:3333/chatgpt-mock.html';
+
+async function launch(): Promise<BrowserContext> {
+  // Use Playwright Chromium (not real Chrome) — no Google login needed for mock tests
+  return chromium.launchPersistentContext('', {
+    headless: false,
+    args: [
+      `--disable-extensions-except=${EXTENSION_PATH}`,
+      `--load-extension=${EXTENSION_PATH}`,
+      '--no-first-run',
+      '--no-default-browser-check',
+    ],
+  });
 }
 
-// ⚠️  Run sparingly to avoid triggering ChatGPT bot detection / CAPTCHA.
-// Each test opens a real page in headed Chrome — treat like a manual browser session.
-test.describe('ChatGPT selector verification', () => {
+test.describe('Extension on mock ChatGPT page', () => {
   let ctx: BrowserContext;
 
-  test.beforeAll(async () => {
-    ctx = await launchWithExtension();
-  });
+  test.beforeAll(async () => { ctx = await launch(); });
+  test.afterAll(async () => { await ctx.close(); });
+  test.afterEach(async () => { await new Promise((r) => setTimeout(r, 300)); });
 
-  test.afterAll(async () => {
-    await ctx.close();
-  });
-
-  // Small pause between tests — avoids rapid-fire navigation that looks bot-like
-  test.afterEach(async () => {
-    await new Promise((r) => setTimeout(r, 1500));
-  });
-
-  test('page loads and content script injects', async () => {
+  test('content script injects styles and overlay', async () => {
     const page = await ctx.newPage();
-    await page.goto(CHATGPT_URL, { waitUntil: 'domcontentloaded' });
+    await page.goto(MOCK_PAGE);
+    await page.waitForSelector('nav');
 
-    // Wait for nav or aside to appear (sidebar)
-    await page.waitForSelector('nav, aside', { timeout: 60_000 });
-
-    // Wait for content script to inject its style tag (async after sidebar appears)
-    await page.waitForFunction(() => !!document.getElementById('cbd-styles'), { timeout: 10_000 });
-    const styleInjected = true; // waitForFunction throws if not found
-    expect(styleInjected, 'Content script injected <style id="cbd-styles">').toBe(true);
-
-    // Verify overlay host was injected
+    await page.waitForFunction(() => !!document.getElementById('cbd-styles'), { timeout: 5_000 });
     await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
-    const overlayInjected = true;
-    expect(overlayInjected, 'Content script injected Shadow DOM overlay').toBe(true);
 
+    const styleInjected = await page.evaluate(() => !!document.getElementById('cbd-styles'));
+    const overlayInjected = await page.evaluate(() => !!document.getElementById('cbd-overlay-host'));
+
+    expect(styleInjected).toBe(true);
+    expect(overlayInjected).toBe(true);
     await page.close();
   });
 
-  test('chat link selectors find sidebar items', async () => {
+  test('selectors find all 10 mock chats', async () => {
     const page = await ctx.newPage();
-    await page.goto(CHATGPT_URL, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('nav, aside', { timeout: 60_000 });
-
-    // Small pause for sidebar to fully render
-    await page.waitForTimeout(1500);
+    await page.goto(MOCK_PAGE);
+    await page.waitForSelector('nav');
+    await page.waitForTimeout(800);
 
     const result = await page.evaluate(() => {
-      // Primary selector (same as chat-list.ts)
-      const primary = document.querySelectorAll<HTMLAnchorElement>('nav a[href^="/c/"], aside a[href^="/c/"]');
-      // Fallback selector
-      const fallback = document.querySelectorAll<HTMLAnchorElement>('a[href^="/c/"]');
-
-      const extract = (links: NodeListOf<HTMLAnchorElement>) =>
-        Array.from(links).map((el) => ({
-          href: el.getAttribute('href'),
-          text: el.textContent?.trim().slice(0, 40),
-          tag: el.tagName,
-          parentTag: el.parentElement?.tagName,
-        }));
-
+      const primary = document.querySelectorAll('nav a[href^="/c/"], aside a[href^="/c/"]');
+      const fallback = document.querySelectorAll('a[href^="/c/"]');
       return {
         primaryCount: primary.length,
         fallbackCount: fallback.length,
-        samples: extract(primary.length > 0 ? primary : fallback).slice(0, 5),
-        // Introspect DOM around first item for selector debugging
-        navExists: !!document.querySelector('nav'),
-        asideExists: !!document.querySelector('aside'),
-        navAriaLabel: document.querySelector('nav')?.getAttribute('aria-label'),
+        ids: Array.from(primary).map((el) => el.getAttribute('href')),
       };
     });
 
-    console.log('\n── Selector results ──────────────────────────────');
-    console.log(`nav exists:        ${result.navExists}  (aria-label: "${result.navAriaLabel}")`);
-    console.log(`aside exists:      ${result.asideExists}`);
-    console.log(`primary selector:  ${result.primaryCount} chats`);
-    console.log(`fallback selector: ${result.fallbackCount} chats`);
-    if (result.samples.length) {
-      console.log('samples:');
-      result.samples.forEach((s) => console.log(`  ${s.href}  "${s.text}"  (${s.parentTag} > ${s.tag})`));
-    }
-    console.log('──────────────────────────────────────────────────\n');
+    console.log(`\nPrimary selector: ${result.primaryCount} chats`);
+    console.log(`Fallback selector: ${result.fallbackCount} chats`);
+    console.log('IDs:', result.ids);
 
-    // At least one of the selectors should find items if user is logged in
-    const totalFound = Math.max(result.primaryCount, result.fallbackCount);
-    if (totalFound === 0) {
-      console.warn('⚠️  No chats found — make sure you are logged in and have existing conversations.');
-    }
-
-    expect(result.navExists || result.asideExists, 'Sidebar element (nav or aside) should exist').toBe(true);
+    expect(result.primaryCount).toBe(10);
     await page.close();
   });
 
-  test('extension hotkey activates selection mode', async () => {
+  test('Cmd+Shift+X shows overlay, Esc hides it', async () => {
     const page = await ctx.newPage();
-    await page.goto(CHATGPT_URL, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('nav, aside', { timeout: 60_000 });
-    await page.waitForTimeout(1500);
-
-    // Press Cmd+Shift+X to enter selection mode
-    await page.keyboard.press('Meta+Shift+X');
-    await page.waitForTimeout(300);
-
-    const overlayState = await page.evaluate(() => {
-      const host = document.getElementById('cbd-overlay-host');
-      if (!host?.shadowRoot) return { found: false, hidden: true };
-      const panel = host.shadowRoot.querySelector('.panel');
-      return {
-        found: true,
-        hidden: panel?.classList.contains('hidden') ?? true,
-        countText: host.shadowRoot.querySelector('.count')?.textContent,
-      };
-    });
-
-    console.log('\n── Hotkey test ────────────────────────────────────');
-    console.log(`Overlay found:    ${overlayState.found}`);
-    console.log(`Panel visible:    ${!overlayState.hidden}`);
-    console.log(`Count badge:      "${overlayState.countText}"`);
-    console.log('──────────────────────────────────────────────────\n');
-
-    expect(overlayState.found, 'Overlay host element should exist').toBe(true);
-    expect(overlayState.hidden, 'Panel should be visible after Cmd+Shift+X').toBe(false);
-
-    // Press Esc to exit
-    await page.keyboard.press('Escape');
-    await page.waitForTimeout(200);
-
-    const hiddenAfterEsc = await page.evaluate(() => {
-      const panel = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.panel');
-      return panel?.classList.contains('hidden') ?? false;
-    });
-    expect(hiddenAfterEsc, 'Panel should hide after Esc').toBe(true);
-
-    await page.close();
-  });
-
-  test('J/K navigation moves cursor between chats', async () => {
-    const page = await ctx.newPage();
-    await page.goto(CHATGPT_URL, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('nav, aside', { timeout: 60_000 });
-    await page.waitForTimeout(1500);
+    await page.goto(MOCK_PAGE);
+    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
+    await page.waitForTimeout(500);
 
     // Enter selection mode
     await page.keyboard.press('Meta+Shift+X');
+    await page.waitForTimeout(300);
+
+    const visibleAfterHotkey = await page.evaluate(() => {
+      const panel = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.panel');
+      return !panel?.classList.contains('hidden');
+    });
+    expect(visibleAfterHotkey, 'Panel visible after Cmd+Shift+X').toBe(true);
+
+    // Esc hides it — even from textarea
+    await page.locator('textarea').focus();
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(300);
+
+    const hiddenAfterEsc = await page.evaluate(() => {
+      const panel = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.panel');
+      return panel?.classList.contains('hidden');
+    });
+    expect(hiddenAfterEsc, 'Panel hidden after Esc (from textarea)').toBe(true);
+
+    await page.close();
+  });
+
+  test('J/K moves cursor, Space selects, count updates', async () => {
+    const page = await ctx.newPage();
+    await page.goto(MOCK_PAGE);
+    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
+    await page.waitForTimeout(500);
+
+    await page.keyboard.press('Meta+Shift+X');
     await page.waitForTimeout(200);
 
-    const firstCursorHref = await page.evaluate(() => {
-      return document.querySelector('a.cbd-cursor')?.getAttribute('href');
-    });
+    // First chat should have cursor
+    const firstHref = await page.evaluate(() => document.querySelector('a.cbd-cursor')?.getAttribute('href'));
+    expect(firstHref).toBe('/c/aaa-111');
 
-    // Move cursor down
+    // Move down
+    await page.keyboard.press('j');
+    await page.waitForTimeout(100);
+    const secondHref = await page.evaluate(() => document.querySelector('a.cbd-cursor')?.getAttribute('href'));
+    expect(secondHref).toBe('/c/bbb-222');
+
+    // Move down again
     await page.keyboard.press('j');
     await page.waitForTimeout(100);
 
-    const secondCursorHref = await page.evaluate(() => {
-      return document.querySelector('a.cbd-cursor')?.getAttribute('href');
-    });
+    // Select current (3rd chat)
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(100);
 
-    console.log('\n── Navigation test ────────────────────────────────');
-    console.log(`Cursor before J: ${firstCursorHref}`);
-    console.log(`Cursor after J:  ${secondCursorHref}`);
-    console.log('──────────────────────────────────────────────────\n');
+    const count = await page.evaluate(() =>
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+    );
+    expect(count, 'Count badge shows 1 after Space').toBe('1');
 
-    if (firstCursorHref && secondCursorHref) {
-      expect(firstCursorHref).not.toBe(secondCursorHref);
-    } else {
-      console.warn('⚠️  No cursor found — may have 0 or 1 chat, or selector mismatch');
-    }
+    const isSelected = await page.evaluate(() =>
+      document.querySelector('a[href="/c/ccc-333"]')?.classList.contains('cbd-selected')
+    );
+    expect(isSelected, 'Third chat has cbd-selected class').toBe(true);
 
-    // Exit
-    await page.keyboard.press('Escape');
+    await page.close();
+  });
+
+  test('Shift+J range-selects multiple chats', async () => {
+    const page = await ctx.newPage();
+    await page.goto(MOCK_PAGE);
+    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
+    await page.waitForTimeout(500);
+
+    await page.keyboard.press('Meta+Shift+X');
+    await page.waitForTimeout(200);
+
+    // Shift+J x3 from position 0 → should select chats 0,1,2,3
+    await page.keyboard.press('Shift+j');
+    await page.keyboard.press('Shift+j');
+    await page.keyboard.press('Shift+j');
+    await page.waitForTimeout(200);
+
+    const count = await page.evaluate(() =>
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+    );
+    expect(count, 'Range select: 4 chats selected').toBe('4');
+
+    await page.close();
+  });
+
+  test('Cmd+A selects all, Cmd+D clears', async () => {
+    const page = await ctx.newPage();
+    await page.goto(MOCK_PAGE);
+    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
+    await page.waitForTimeout(500);
+
+    await page.keyboard.press('Meta+Shift+X');
+    await page.waitForTimeout(200);
+
+    await page.keyboard.press('Meta+a');
+    await page.waitForTimeout(100);
+
+    const countAll = await page.evaluate(() =>
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+    );
+    expect(countAll, 'Cmd+A selects all 10').toBe('10');
+
+    await page.keyboard.press('Meta+d');
+    await page.waitForTimeout(100);
+
+    const countAfterClear = await page.evaluate(() =>
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+    );
+    expect(countAfterClear, 'Cmd+D clears selection').toBe('0');
+
     await page.close();
   });
 });
