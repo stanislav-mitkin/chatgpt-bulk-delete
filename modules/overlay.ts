@@ -31,7 +31,6 @@ const SHADOW_CSS = `
     --badge-danger:    #ef4444;
     --success:         #10a37f;
     --error:           #ef4444;
-    --strip-text:      rgba(255,255,255,0.18);
   }
   :host(.light) {
     --bg:              rgba(250,250,250,0.95);
@@ -57,7 +56,6 @@ const SHADOW_CSS = `
     --badge-danger:    #dc2626;
     --success:         #0a8f6e;
     --error:           #dc2626;
-    --strip-text:      rgba(0,0,0,0.3);
   }
 
   /* ── host layout ─────────────────────────────────────────────────────────── */
@@ -229,19 +227,6 @@ const SHADOW_CSS = `
     padding: 1px 4px;
   }
 
-  /* ── persistent bottom strip ──────────────────────────────────────────── */
-  .hint {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    color: var(--strip-text);
-    line-height: 1.5;
-  }
-  .hint-action { flex: 1; white-space: nowrap; transition: color 0.2s; }
-  .hint-action.success { color: var(--success); }
-  .hint-action.error   { color: var(--error); }
-  .hint-brand  { white-space: nowrap; }
 `;
 
 let host: HTMLElement | null = null;
@@ -260,8 +245,6 @@ let deleteBtnEl: HTMLButtonElement | null = null;
 let clearBtnEl: HTMLButtonElement | null = null;
 let exitBtnEl: HTMLButtonElement | null = null;
 let selectBtnEl: HTMLButtonElement | null = null;
-let hintActionEl: HTMLElement | null = null;
-
 let activationKeyCache = '';
 let deleteHandler: (() => void) | null = null;
 let clearHandler:  (() => void) | null = null;
@@ -330,10 +313,6 @@ export function initOverlay() {
       </div>
     </div>
 
-    <div class="hint">
-      <span class="hint-action"><span class="shortcut">${activationKeyCache}</span> ${t('enter')}</span>
-      <span class="hint-brand">${t('branding')}</span>
-    </div>
   `;
 
   document.body.appendChild(host);
@@ -350,7 +329,6 @@ export function initOverlay() {
   clearBtnEl     = shadow.querySelector('.btn-clear');
   exitBtnEl      = shadow.querySelector('.btn-exit');
   selectBtnEl    = shadow.querySelector('.btn-select');
-  hintActionEl   = shadow.querySelector('.hint-action');
 
   selectBtnEl?.addEventListener('click', () => selectHandler?.());
   deleteBtnEl?.addEventListener('click', () => deleteHandler?.());
@@ -366,9 +344,6 @@ export function initOverlay() {
     const active = mode === 'active';
     idleCardEl?.classList.toggle('hidden', active);
     panelEl?.classList.toggle('hidden', !active);
-    if (hintActionEl && !hintActionEl.classList.contains('success') && !hintActionEl.classList.contains('error')) {
-      hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> ${active ? t('exitMode') : t('enter')}`;
-    }
     if (!active) clearStatus();
   });
 
@@ -391,9 +366,6 @@ export function initOverlay() {
   if (getMode() === 'active') {
     idleCardEl?.classList.add('hidden');
     panelEl?.classList.remove('hidden');
-    if (hintActionEl) {
-      hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> ${t('exitMode')}`;
-    }
   }
 }
 
@@ -420,26 +392,15 @@ export function showProgress(done: number, total: number) {
 }
 
 export function showDeletedInStrip(succeeded: number, failed: number) {
-  if (!hintActionEl) return;
   if (resultResetTimer) { clearTimeout(resultResetTimer); resultResetTimer = null; }
 
   if (failed === 0) {
-    hintActionEl.textContent = succeeded === 1 ? t('done1') : t('doneN', [String(succeeded)]);
-    hintActionEl.className = 'hint-action success';
+    setStatus(succeeded === 1 ? t('done1') : t('doneN', [String(succeeded)]), 'success');
   } else {
-    hintActionEl.textContent = t('doneFail', [String(succeeded), String(failed)]);
-    hintActionEl.className = 'hint-action error';
+    setStatus(t('doneFail', [String(succeeded), String(failed)]), 'error');
   }
 
-  resultResetTimer = setTimeout(resetHintAction, 3000);
-}
-
-function resetHintAction() {
-  resultResetTimer = null;
-  if (!hintActionEl) return;
-  const label = getMode() === 'active' ? t('exitMode') : t('enter');
-  hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> ${label}`;
-  hintActionEl.className = 'hint-action';
+  resultResetTimer = setTimeout(() => { resultResetTimer = null; clearStatus(); }, 3000);
 }
 
 export function clearStatus() {
@@ -468,7 +429,7 @@ export function destroyOverlay() {
   host?.remove();
   host = shadow = idleCardEl = panelEl = dotEl = countBadgeEl = statusEl =
     progressBarEl = progressFillEl = actionBarEl = deleteBtnEl = clearBtnEl =
-    exitBtnEl = selectBtnEl = hintActionEl = null;
+    exitBtnEl = selectBtnEl = null;
   deleteHandler = clearHandler = selectHandler = exitHandler = null;
   activationKeyCache = '';
 }
