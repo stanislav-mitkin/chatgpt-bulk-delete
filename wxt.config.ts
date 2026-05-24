@@ -3,8 +3,9 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   extensionApi: 'chrome',
   manifest: {
-    name: 'ChatGPT Keyboard Bulk Delete',
-    description: 'Keyboard-driven bulk delete for ChatGPT conversations',
+    default_locale: 'en',
+    name: '__MSG_ext_name__',
+    description: '__MSG_ext_description__',
     version: '0.1.0',
     permissions: [],
     host_permissions: [

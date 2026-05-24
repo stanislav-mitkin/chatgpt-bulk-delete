@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT 일괄 삭제" },
+  "ext_description": { "message": "ChatGPT 대화를 여러 개 선택하여 일괄 삭제" },
+
+  "idle_hint":  { "message": "일괄 선택하려면" },
+  "btn_select": { "message": "대화 선택" },
+  "mode_title": { "message": "선택 모드" },
+
+  "key_chat":   { "message": "대화 선택" },
+  "key_all":    { "message": "전체 선택" },
+  "key_clear":  { "message": "선택 해제" },
+  "key_delete": { "message": "삭제" },
+  "key_exit":   { "message": "종료" },
+
+  "btn_clear": { "message": "선택 해제" },
+  "btn_del1":  { "message": "대화 1개 삭제" },
+  "btn_delN":  { "message": "대화 $COUNT$개 삭제", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "선택 모드 종료" },
+
+  "sel0": { "message": "0개 선택됨" },
+  "sel1": { "message": "1개 선택됨" },
+  "selN": { "message": "$COUNT$개 선택됨", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "↩ 를 한 번 더 눌러 1개 삭제" },
+  "confN": { "message": "↩ 를 한 번 더 눌러 $COUNT$개 삭제", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "1개 삭제됨" },
+  "doneN":    { "message": "$COUNT$개 삭제됨", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "$DONE$개 삭제됨, $FAILED$개 실패", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "선택 모드 시작" },
+  "exitMode": { "message": "선택 모드 종료" },
+  "branding": { "message": "ChatGPT 일괄 삭제" }
+}

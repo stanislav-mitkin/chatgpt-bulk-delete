@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_description": { "message": "Chọn và xóa hàng loạt cuộc trò chuyện ChatGPT" },
+
+  "idle_hint":  { "message": "để chọn hàng loạt" },
+  "btn_select": { "message": "Chọn cuộc trò chuyện" },
+  "mode_title": { "message": "Chế độ chọn" },
+
+  "key_chat":   { "message": "chọn cuộc trò chuyện" },
+  "key_all":    { "message": "chọn tất cả" },
+  "key_clear":  { "message": "bỏ chọn" },
+  "key_delete": { "message": "xóa" },
+  "key_exit":   { "message": "thoát" },
+
+  "btn_clear": { "message": "Bỏ chọn" },
+  "btn_del1":  { "message": "Xóa 1 cuộc trò chuyện" },
+  "btn_delN":  { "message": "Xóa $COUNT$ cuộc trò chuyện", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "Thoát chế độ chọn" },
+
+  "sel0": { "message": "Đã chọn 0 cuộc" },
+  "sel1": { "message": "Đã chọn 1 cuộc" },
+  "selN": { "message": "Đã chọn $COUNT$ cuộc", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "Nhấn ↩ lần nữa để xóa 1 cuộc trò chuyện" },
+  "confN": { "message": "Nhấn ↩ lần nữa để xóa $COUNT$ cuộc trò chuyện", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "Đã xóa 1 cuộc trò chuyện" },
+  "doneN":    { "message": "Đã xóa $COUNT$ cuộc trò chuyện", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "Đã xóa $DONE$, thất bại $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "Vào chế độ chọn" },
+  "exitMode": { "message": "Thoát chế độ chọn" },
+  "branding": { "message": "ChatGPT Bulk Delete" }
+}

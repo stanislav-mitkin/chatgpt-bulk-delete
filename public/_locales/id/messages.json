@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_description": { "message": "Pilih dan hapus percakapan ChatGPT secara massal" },
+
+  "idle_hint":  { "message": "untuk pilih massal" },
+  "btn_select": { "message": "Pilih obrolan" },
+  "mode_title": { "message": "Mode pemilihan" },
+
+  "key_chat":   { "message": "pilih obrolan" },
+  "key_all":    { "message": "pilih semua" },
+  "key_clear":  { "message": "hapus pilihan" },
+  "key_delete": { "message": "hapus" },
+  "key_exit":   { "message": "keluar" },
+
+  "btn_clear": { "message": "Hapus pilihan" },
+  "btn_del1":  { "message": "Hapus 1 obrolan" },
+  "btn_delN":  { "message": "Hapus $COUNT$ obrolan", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "Keluar mode pemilihan" },
+
+  "sel0": { "message": "0 obrolan dipilih" },
+  "sel1": { "message": "1 obrolan dipilih" },
+  "selN": { "message": "$COUNT$ obrolan dipilih", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "Tekan ↩ lagi untuk menghapus 1 obrolan" },
+  "confN": { "message": "Tekan ↩ lagi untuk menghapus $COUNT$ obrolan", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "1 obrolan dihapus" },
+  "doneN":    { "message": "$COUNT$ obrolan dihapus", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "$DONE$ dihapus, $FAILED$ gagal", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "Masuk mode pemilihan" },
+  "exitMode": { "message": "Keluar mode pemilihan" },
+  "branding": { "message": "ChatGPT Bulk Delete" }
+}

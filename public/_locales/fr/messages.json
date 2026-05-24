@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_description": { "message": "Sélectionnez et supprimez en masse des conversations ChatGPT" },
+
+  "idle_hint":  { "message": "pour sélection multiple" },
+  "btn_select": { "message": "Sélectionner des chats" },
+  "mode_title": { "message": "Mode sélection" },
+
+  "key_chat":   { "message": "sélectionner un chat" },
+  "key_all":    { "message": "tout sélectionner" },
+  "key_clear":  { "message": "effacer" },
+  "key_delete": { "message": "supprimer" },
+  "key_exit":   { "message": "quitter" },
+
+  "btn_clear": { "message": "Effacer" },
+  "btn_del1":  { "message": "Supprimer 1 chat" },
+  "btn_delN":  { "message": "Supprimer $COUNT$ chats", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "Quitter le mode sélection" },
+
+  "sel0": { "message": "0 chat sélectionné" },
+  "sel1": { "message": "1 chat sélectionné" },
+  "selN": { "message": "$COUNT$ chats sélectionnés", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "Appuyer sur ↩ pour supprimer 1 chat" },
+  "confN": { "message": "Appuyer sur ↩ pour supprimer $COUNT$ chats", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "1 chat supprimé" },
+  "doneN":    { "message": "$COUNT$ chats supprimés", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "$DONE$ supprimés, $FAILED$ échoués", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "Entrer en mode sélection" },
+  "exitMode": { "message": "Quitter le mode sélection" },
+  "branding": { "message": "ChatGPT Bulk Delete" }
+}

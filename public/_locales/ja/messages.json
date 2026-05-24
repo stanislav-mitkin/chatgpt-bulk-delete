@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT 一括削除" },
+  "ext_description": { "message": "ChatGPT の会話を複数選択して一括削除" },
+
+  "idle_hint":  { "message": "一括選択するには" },
+  "btn_select": { "message": "チャットを選択" },
+  "mode_title": { "message": "選択モード" },
+
+  "key_chat":   { "message": "チャットを選択" },
+  "key_all":    { "message": "すべて選択" },
+  "key_clear":  { "message": "クリア" },
+  "key_delete": { "message": "削除" },
+  "key_exit":   { "message": "終了" },
+
+  "btn_clear": { "message": "クリア" },
+  "btn_del1":  { "message": "1件のチャットを削除" },
+  "btn_delN":  { "message": "$COUNT$件のチャットを削除", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "選択モードを終了" },
+
+  "sel0": { "message": "0件選択" },
+  "sel1": { "message": "1件選択" },
+  "selN": { "message": "$COUNT$件選択", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "↩ をもう一度押して1件を削除" },
+  "confN": { "message": "↩ をもう一度押して$COUNT$件を削除", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "1件のチャットを削除しました" },
+  "doneN":    { "message": "$COUNT$件のチャットを削除しました", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "$DONE$件削除、$FAILED$件失敗", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "選択モードを開始" },
+  "exitMode": { "message": "選択モードを終了" },
+  "branding": { "message": "ChatGPT 一括削除" }
+}

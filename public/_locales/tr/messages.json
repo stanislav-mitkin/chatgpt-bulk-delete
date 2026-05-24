@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_description": { "message": "ChatGPT konuşmalarını toplu seçin ve silin" },
+
+  "idle_hint":  { "message": "toplu seçim için" },
+  "btn_select": { "message": "Sohbet seç" },
+  "mode_title": { "message": "Seçim modu" },
+
+  "key_chat":   { "message": "sohbet seç" },
+  "key_all":    { "message": "tümünü seç" },
+  "key_clear":  { "message": "temizle" },
+  "key_delete": { "message": "sil" },
+  "key_exit":   { "message": "çık" },
+
+  "btn_clear": { "message": "Temizle" },
+  "btn_del1":  { "message": "1 sohbeti sil" },
+  "btn_delN":  { "message": "$COUNT$ sohbeti sil", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "Seçim modundan çık" },
+
+  "sel0": { "message": "0 sohbet seçildi" },
+  "sel1": { "message": "1 sohbet seçildi" },
+  "selN": { "message": "$COUNT$ sohbet seçildi", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "1 sohbeti silmek için ↩ tuşuna tekrar bas" },
+  "confN": { "message": "$COUNT$ sohbeti silmek için ↩ tuşuna tekrar bas", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "1 sohbet silindi" },
+  "doneN":    { "message": "$COUNT$ sohbet silindi", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "$DONE$ silindi, $FAILED$ başarısız", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "Seçim moduna gir" },
+  "exitMode": { "message": "Seçim modundan çık" },
+  "branding": { "message": "ChatGPT Bulk Delete" }
+}

@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT 批量删除" },
+  "ext_description": { "message": "批量选择并删除 ChatGPT 对话" },
+
+  "idle_hint":  { "message": "批量选择" },
+  "btn_select": { "message": "选择对话" },
+  "mode_title": { "message": "选择模式" },
+
+  "key_chat":   { "message": "选择对话" },
+  "key_all":    { "message": "全选" },
+  "key_clear":  { "message": "清除" },
+  "key_delete": { "message": "删除" },
+  "key_exit":   { "message": "退出" },
+
+  "btn_clear": { "message": "清除" },
+  "btn_del1":  { "message": "删除 1 个对话" },
+  "btn_delN":  { "message": "删除 $COUNT$ 个对话", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "退出选择模式" },
+
+  "sel0": { "message": "已选 0 个对话" },
+  "sel1": { "message": "已选 1 个对话" },
+  "selN": { "message": "已选 $COUNT$ 个对话", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "再次按 ↩ 确认删除 1 个对话" },
+  "confN": { "message": "再次按 ↩ 确认删除 $COUNT$ 个对话", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "已删除 1 个对话" },
+  "doneN":    { "message": "已删除 $COUNT$ 个对话", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "已删除 $DONE$，失败 $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "进入选择模式" },
+  "exitMode": { "message": "退出选择模式" },
+  "branding": { "message": "ChatGPT 批量删除" }
+}

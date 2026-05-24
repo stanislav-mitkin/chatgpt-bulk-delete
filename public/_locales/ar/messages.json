@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_description": { "message": "حدد محادثات ChatGPT واحذفها بشكل جماعي" },
+
+  "idle_hint":  { "message": "للتحديد الجماعي" },
+  "btn_select": { "message": "تحديد المحادثات" },
+  "mode_title": { "message": "وضع التحديد" },
+
+  "key_chat":   { "message": "تحديد محادثة" },
+  "key_all":    { "message": "تحديد الكل" },
+  "key_clear":  { "message": "مسح" },
+  "key_delete": { "message": "حذف" },
+  "key_exit":   { "message": "خروج" },
+
+  "btn_clear": { "message": "مسح" },
+  "btn_del1":  { "message": "حذف محادثة واحدة" },
+  "btn_delN":  { "message": "حذف $COUNT$ محادثات", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "الخروج من وضع التحديد" },
+
+  "sel0": { "message": "0 محادثات محددة" },
+  "sel1": { "message": "محادثة واحدة محددة" },
+  "selN": { "message": "$COUNT$ محادثات محددة", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "اضغط ↩ مرة أخرى لحذف محادثة واحدة" },
+  "confN": { "message": "اضغط ↩ مرة أخرى لحذف $COUNT$ محادثات", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "تم حذف محادثة واحدة" },
+  "doneN":    { "message": "تم حذف $COUNT$ محادثات", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "تم حذف $DONE$، فشل $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "الدخول إلى وضع التحديد" },
+  "exitMode": { "message": "الخروج من وضع التحديد" },
+  "branding": { "message": "ChatGPT Bulk Delete" }
+}

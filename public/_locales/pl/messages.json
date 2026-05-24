@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_description": { "message": "Zaznacz i usuń masowo rozmowy ChatGPT" },
+
+  "idle_hint":  { "message": "do zbiorowego zaznaczania" },
+  "btn_select": { "message": "Zaznacz czaty" },
+  "mode_title": { "message": "Tryb zaznaczania" },
+
+  "key_chat":   { "message": "zaznacz czat" },
+  "key_all":    { "message": "zaznacz wszystko" },
+  "key_clear":  { "message": "wyczyść" },
+  "key_delete": { "message": "usuń" },
+  "key_exit":   { "message": "wyjdź" },
+
+  "btn_clear": { "message": "Wyczyść" },
+  "btn_del1":  { "message": "Usuń 1 czat" },
+  "btn_delN":  { "message": "Usuń $COUNT$ czatów", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "Wyjdź z trybu zaznaczania" },
+
+  "sel0": { "message": "0 czatów zaznaczonych" },
+  "sel1": { "message": "1 czat zaznaczony" },
+  "selN": { "message": "$COUNT$ czatów zaznaczonych", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "Naciśnij ↩ ponownie, aby usunąć 1 czat" },
+  "confN": { "message": "Naciśnij ↩ ponownie, aby usunąć $COUNT$ czatów", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "Usunięto 1 czat" },
+  "doneN":    { "message": "Usunięto $COUNT$ czatów", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "Usunięto $DONE$, błędy: $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "Wejdź w tryb zaznaczania" },
+  "exitMode": { "message": "Wyjdź z trybu zaznaczania" },
+  "branding": { "message": "ChatGPT Bulk Delete" }
+}

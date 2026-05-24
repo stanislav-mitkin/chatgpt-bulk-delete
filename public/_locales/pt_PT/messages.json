@@ -1,0 +1,34 @@
+{
+  "ext_name":        { "message": "ChatGPT Bulk Delete" },
+  "ext_description": { "message": "Selecione e elimine conversas do ChatGPT em massa" },
+
+  "idle_hint":  { "message": "para seleção em massa" },
+  "btn_select": { "message": "Selecionar conversas" },
+  "mode_title": { "message": "Modo de seleção" },
+
+  "key_chat":   { "message": "selecionar conversa" },
+  "key_all":    { "message": "selecionar tudo" },
+  "key_clear":  { "message": "limpar" },
+  "key_delete": { "message": "eliminar" },
+  "key_exit":   { "message": "sair" },
+
+  "btn_clear": { "message": "Limpar" },
+  "btn_del1":  { "message": "Eliminar 1 conversa" },
+  "btn_delN":  { "message": "Eliminar $COUNT$ conversas", "placeholders": { "count": { "content": "$1" } } },
+  "btn_exit":  { "message": "Sair do modo de seleção" },
+
+  "sel0": { "message": "0 conversas selecionadas" },
+  "sel1": { "message": "1 conversa selecionada" },
+  "selN": { "message": "$COUNT$ conversas selecionadas", "placeholders": { "count": { "content": "$1" } } },
+
+  "conf1": { "message": "Prima ↩ novamente para eliminar 1 conversa" },
+  "confN": { "message": "Prima ↩ novamente para eliminar $COUNT$ conversas", "placeholders": { "count": { "content": "$1" } } },
+
+  "done1":    { "message": "1 conversa eliminada" },
+  "doneN":    { "message": "$COUNT$ conversas eliminadas", "placeholders": { "count": { "content": "$1" } } },
+  "doneFail": { "message": "$DONE$ eliminadas, $FAILED$ falharam", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
+
+  "enter":    { "message": "Entrar no modo de seleção" },
+  "exitMode": { "message": "Sair do modo de seleção" },
+  "branding": { "message": "ChatGPT Bulk Delete" }
+}
