@@ -10,25 +10,30 @@ let chats: ChatItem[] = [];
 let observer: MutationObserver | null = null;
 const listeners: ChangeCallback[] = [];
 
-// Extracts conversation ID from href like /c/abc-123 or /c/abc-123?...
+// Extracts conversation ID from any href form:
+//   https://chatgpt.com/c/abc-123   (real site — full URL)
+//   /c/abc-123                       (mock page — relative)
 function extractId(href: string): string | null {
-  const match = href.match(/\/c\/([a-zA-Z0-9_-]+)/);
+  const match = href.match(/\/c\/([a-zA-Z0-9_-]{8,})/);
   return match ? match[1] : null;
 }
 
 function buildChatList(): ChatItem[] {
-  // Primary: anchor links to /c/{id} inside the sidebar nav
-  const links = document.querySelectorAll<HTMLAnchorElement>(
-    'nav a[href^="/c/"], aside a[href^="/c/"]'
+  // Primary: chat anchors inside the Chat history nav.
+  // Real ChatGPT: data-sidebar-item="true" + href contains /c/ (excludes Home, Projects, etc.)
+  const byAttr = document.querySelectorAll<HTMLAnchorElement>(
+    'nav[aria-label="Chat history"] a[data-sidebar-item="true"][href*="/c/"]'
   );
+  if (byAttr.length > 0) return parseLinkList(byAttr);
 
-  if (links.length === 0) {
-    // Fallback: any anchor matching /c/ pattern on the page
-    const allLinks = document.querySelectorAll<HTMLAnchorElement>('a[href^="/c/"]');
-    return parseLinkList(allLinks);
-  }
+  // Fallback 1: any anchor inside nav/aside containing /c/{id} in href
+  const byNav = document.querySelectorAll<HTMLAnchorElement>(
+    'nav a[href*="/c/"], aside a[href*="/c/"]'
+  );
+  if (byNav.length > 0) return parseLinkList(byNav);
 
-  return parseLinkList(links);
+  // Fallback 2: any anchor on the page (dev/mock environments)
+  return parseLinkList(document.querySelectorAll<HTMLAnchorElement>('a[href*="/c/"]'));
 }
 
 function parseLinkList(links: NodeListOf<HTMLAnchorElement>): ChatItem[] {
@@ -36,18 +41,15 @@ function parseLinkList(links: NodeListOf<HTMLAnchorElement>): ChatItem[] {
   links.forEach((el) => {
     const id = extractId(el.getAttribute('href') || '');
     if (!id) return;
-    result.push({
-      id,
-      element: el,
-      title: el.textContent?.trim() || id,
-    });
+    // Prefer aria-label (real site) then text content (mock)
+    const title = el.getAttribute('aria-label') || el.textContent?.trim() || id;
+    result.push({ id, element: el, title });
   });
   return result;
 }
 
 function refresh() {
   const next = buildChatList();
-  // Only notify if list actually changed (by IDs)
   const prevIds = chats.map((c) => c.id).join(',');
   const nextIds = next.map((c) => c.id).join(',');
   if (prevIds === nextIds) return;
@@ -66,11 +68,8 @@ export function onChatListChange(cb: ChangeCallback) {
 
 export function initChatList() {
   refresh();
-
-  // Watch for sidebar mutations (new chats loaded, chats deleted, navigation)
   observer = new MutationObserver(() => refresh());
   observer.observe(document.body, { childList: true, subtree: true });
-
   console.debug('[CBD] Chat list initialized, found:', chats.length, 'chats');
 }
 
