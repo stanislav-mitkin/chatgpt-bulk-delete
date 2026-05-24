@@ -2,23 +2,25 @@ import { initChatList, onChatListChange, destroyChatList } from '../modules/chat
 import { initKeybindings, destroyKeybindings } from '../modules/keybindings';
 import { injectStyles, removeStyles } from '../modules/styles';
 import { refreshClasses } from '../modules/selection';
+import { initOverlay, destroyOverlay } from '../modules/overlay';
 
 export default defineContentScript({
   matches: ['https://chatgpt.com/*', 'https://chat.openai.com/*'],
   main() {
     injectStyles();
+    initOverlay();
 
     waitForSidebar(() => {
       initChatList();
       initKeybindings();
 
-      // Re-apply selection classes when the chat list updates (pagination, new chats)
       onChatListChange(() => refreshClasses());
     });
 
     return () => {
       destroyKeybindings();
       destroyChatList();
+      destroyOverlay();
       removeStyles();
     };
   },
