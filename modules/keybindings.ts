@@ -16,7 +16,7 @@ const CONFIRM_TIMEOUT_MS = 2000;
 let pendingDelete = false;
 let confirmTimer: ReturnType<typeof setTimeout> | null = null;
 
-const isModifier = (e: KeyboardEvent) => isMac ? e.metaKey : e.ctrlKey;
+const isModifier = (e: KeyboardEvent) => isMac() ? e.metaKey : e.ctrlKey;
 
 function cancelPending() {
   pendingDelete = false;

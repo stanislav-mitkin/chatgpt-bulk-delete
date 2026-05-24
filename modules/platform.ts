@@ -1,1 +1,1 @@
-export const isMac: boolean = navigator.platform.toUpperCase().includes('MAC');
+export const isMac = (): boolean => navigator.platform.toUpperCase().includes('MAC');

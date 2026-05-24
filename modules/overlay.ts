@@ -286,7 +286,7 @@ function applyTheme(theme: 'dark' | 'light') {
 export function initOverlay() {
   if (document.getElementById(HOST_ID)) return;
 
-  const mac = isMac;
+  const mac = isMac();
   const mod = mac ? '⌘' : 'Ctrl+';
   activationKeyCache = mac ? '⌘⇧K' : 'Ctrl+Shift+K';
 
