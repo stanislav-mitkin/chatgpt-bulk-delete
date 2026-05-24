@@ -1,28 +1,14 @@
-import { test, expect, chromium, type BrowserContext } from '@playwright/test';
-import path from 'path';
+import { test, expect, type BrowserContext } from '@playwright/test';
 import fs from 'fs';
+import { launchRealChrome, PROFILE_DIR, CHATGPT_URL } from './browser-helper';
 
-const EXTENSION_PATH = path.resolve(__dirname, '../.output/chrome-mv3');
-const PROFILE_DIR = path.resolve(__dirname, '../test-profile');
-const CHATGPT_URL = 'https://chatgpt.com';
-
-// Launches Chrome with the extension and the saved auth session
-async function launchWithExtension(): Promise<BrowserContext> {
+function launchWithExtension(): Promise<BrowserContext> {
   if (!fs.existsSync(PROFILE_DIR)) {
     throw new Error(
-      'No saved session found. Run auth setup first:\n' +
-      '  pnpm playwright test tests/auth-setup.ts'
+      'No saved session found. Run auth setup first:\n  pnpm auth'
     );
   }
-  return chromium.launchPersistentContext(PROFILE_DIR, {
-    headless: false,
-    args: [
-      `--disable-extensions-except=${EXTENSION_PATH}`,
-      `--load-extension=${EXTENSION_PATH}`,
-      '--no-first-run',
-      '--no-default-browser-check',
-    ],
-  });
+  return launchRealChrome(PROFILE_DIR);
 }
 
 // ⚠️  Run sparingly to avoid triggering ChatGPT bot detection / CAPTCHA.
