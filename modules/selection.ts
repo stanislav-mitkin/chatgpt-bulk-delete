@@ -22,6 +22,10 @@ export function getMode(): SelectionMode { return mode; }
 export function getCursorIndex(): number { return cursorIndex; }
 export function getSelectedIds(): Set<string> { return selectedIds; }
 
+export function getSelectedItems(): ChatItem[] {
+  return getChatList().filter((c) => selectedIds.has(c.id));
+}
+
 export function onModeChange(cb: ModeChangeCallback) { modeListeners.push(cb); }
 export function onSelectionChange(cb: SelectionChangeCallback) { selectionListeners.push(cb); }
 
