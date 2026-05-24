@@ -14,46 +14,49 @@ const SHADOW_CSS = `
     pointer-events: none;
   }
 
-  /* ── persistent bottom strip ──────────────────────────────────────────── */
-  .hint {
+  /* ── shared card base ────────────────────────────────────────────────────── */
+  .card {
+    background: rgba(18, 18, 18, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .card.hidden {
+    opacity: 0;
+    transform: translateY(5px);
+    pointer-events: none;
+  }
+
+  /* ── idle card ───────────────────────────────────────────────────────────── */
+  .idle-card {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 11px;
-    color: rgba(255,255,255,0.22);
-    line-height: 1.5;
-    margin-top: 6px;
+    padding: 8px 10px 8px 13px;
+    margin-bottom: 6px;
   }
-  .hint .shortcut {
+  .idle-hint {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    white-space: nowrap;
+  }
+  .idle-hint .shortcut {
     font-family: 'SF Mono', 'Fira Code', monospace;
-    background: rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.08);
     border-radius: 3px;
     padding: 1px 4px;
+    margin-right: 2px;
   }
-  .hint-action { flex: 1; white-space: nowrap; transition: color 0.2s; }
-  .hint-action.success { color: #10a37f; }
-  .hint-action.error   { color: #ef4444; }
-  .hint-brand  { white-space: nowrap; }
 
-  /* ── active panel ────────────────────────────────────────────────────────── */
+  /* ── select-mode panel ───────────────────────────────────────────────────── */
   .panel {
-    background: rgba(18, 18, 18, 0.93);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
     padding: 12px 16px;
     color: #e5e5e5;
     min-width: 210px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.15s ease, transform 0.15s ease;
-  }
-  .panel.hidden {
-    opacity: 0;
-    transform: translateY(6px);
-    pointer-events: none;
+    margin-bottom: 6px;
   }
 
   .header {
@@ -83,7 +86,7 @@ const SHADOW_CSS = `
     transition: color 0.15s;
   }
   .count-badge.has-selection { color: #10a37f; }
-  .count-badge.warn  { color: #f59e0b; }
+  .count-badge.warn   { color: #f59e0b; }
   .count-badge.danger { color: #ef4444; }
 
   .hints {
@@ -100,17 +103,8 @@ const SHADOW_CSS = `
   }
   .label { font-size: 11px; color: rgba(255,255,255,0.45); }
 
-  /* ── action buttons ──────────────────────────────────────────────────────── */
-  .action-bar {
-    display: none;
-    gap: 6px;
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .action-bar.visible { display: flex; pointer-events: auto; }
+  /* ── buttons ─────────────────────────────────────────────────────────────── */
   .btn {
-    flex: 1;
     font-size: 11px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     border: none;
@@ -120,11 +114,43 @@ const SHADOW_CSS = `
     font-weight: 500;
     transition: opacity 0.15s;
     white-space: nowrap;
+    pointer-events: auto;
   }
   .btn:hover { opacity: 0.8; }
+
+  .btn-select {
+    background: rgba(255,255,255,0.11);
+    color: rgba(255,255,255,0.75);
+  }
   .btn-delete { background: #ef4444; color: #fff; }
   .btn-clear  { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.6); }
+  .btn-exit   {
+    width: 100%;
+    background: transparent;
+    color: rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-exit:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.6); opacity: 1; }
 
+  /* ── action bar (shown when chats selected) ─────────────────────────────── */
+  .action-bar {
+    display: none;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .action-bar.visible { display: flex; }
+
+  /* ── exit bar ────────────────────────────────────────────────────────────── */
+  .exit-bar {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ── status / progress ───────────────────────────────────────────────────── */
   .status {
     display: none;
     font-size: 12px;
@@ -142,32 +168,49 @@ const SHADOW_CSS = `
   .progress-bar.visible { display: block; }
   .progress-fill { height: 100%; background: #10a37f; border-radius: 1px; transition: width 0.2s; width: 0%; }
 
-  .branding {
-    margin-top: 8px;
-    padding-top: 6px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    font-size: 10px;
-    color: rgba(255,255,255,0.2);
-    text-align: right;
+  /* ── persistent bottom strip ──────────────────────────────────────────── */
+  .hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.18);
+    line-height: 1.5;
   }
+  .hint .shortcut {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    background: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 1px 4px;
+  }
+  .hint-action { flex: 1; white-space: nowrap; transition: color 0.2s; }
+  .hint-action.success { color: #10a37f; }
+  .hint-action.error   { color: #ef4444; }
+  .hint-brand  { white-space: nowrap; }
 `;
 
 let host: HTMLElement | null = null;
 let shadow: ShadowRoot | null = null;
+
+let idleCardEl: HTMLElement | null = null;
 let panelEl: HTMLElement | null = null;
 let dotEl: HTMLElement | null = null;
 let countBadgeEl: HTMLElement | null = null;
 let statusEl: HTMLElement | null = null;
 let progressBarEl: HTMLElement | null = null;
 let progressFillEl: HTMLElement | null = null;
-let hintActionEl: HTMLElement | null = null;
 let actionBarEl: HTMLElement | null = null;
 let deleteBtnEl: HTMLButtonElement | null = null;
 let clearBtnEl: HTMLButtonElement | null = null;
+let exitBtnEl: HTMLButtonElement | null = null;
+let selectBtnEl: HTMLButtonElement | null = null;
+let hintActionEl: HTMLElement | null = null;
 
 let activationKeyCache = '';
 let deleteHandler: (() => void) | null = null;
 let clearHandler: (() => void) | null = null;
+let selectHandler: (() => void) | null = null;
+let exitHandler: (() => void) | null = null;
 let resultResetTimer: ReturnType<typeof setTimeout> | null = null;
 
 export function initOverlay() {
@@ -191,7 +234,13 @@ export function initOverlay() {
 
   shadow.innerHTML = `
     <style>${SHADOW_CSS}</style>
-    <div class="panel hidden">
+
+    <div class="card idle-card">
+      <span class="idle-hint"><span class="shortcut">${activationKeyCache}</span> to bulk select</span>
+      <button class="btn btn-select">Select chats</button>
+    </div>
+
+    <div class="card panel hidden">
       <div class="header">
         <span class="dot"></span>
         <span class="title">Selection mode</span>
@@ -206,8 +255,11 @@ export function initOverlay() {
       </div>
       <div class="status"></div>
       <div class="progress-bar"><div class="progress-fill"></div></div>
-      <div class="branding">ChatGPT Bulk Delete</div>
+      <div class="exit-bar">
+        <button class="btn btn-exit">Exit Select mode</button>
+      </div>
     </div>
+
     <div class="hint">
       <span class="hint-action"><span class="shortcut">${activationKeyCache}</span> Enter Select mode</span>
       <span class="hint-brand">ChatGPT Bulk Delete</span>
@@ -216,22 +268,28 @@ export function initOverlay() {
 
   document.body.appendChild(host);
 
+  idleCardEl     = shadow.querySelector('.idle-card');
   panelEl        = shadow.querySelector('.panel');
   dotEl          = shadow.querySelector('.dot');
   countBadgeEl   = shadow.querySelector('.count-badge');
   statusEl       = shadow.querySelector('.status');
   progressBarEl  = shadow.querySelector('.progress-bar');
   progressFillEl = shadow.querySelector('.progress-fill');
-  hintActionEl   = shadow.querySelector('.hint-action');
   actionBarEl    = shadow.querySelector('.action-bar');
   deleteBtnEl    = shadow.querySelector('.btn-delete');
   clearBtnEl     = shadow.querySelector('.btn-clear');
+  exitBtnEl      = shadow.querySelector('.btn-exit');
+  selectBtnEl    = shadow.querySelector('.btn-select');
+  hintActionEl   = shadow.querySelector('.hint-action');
 
+  selectBtnEl?.addEventListener('click', () => selectHandler?.());
   deleteBtnEl?.addEventListener('click', () => deleteHandler?.());
-  clearBtnEl?.addEventListener('click', () => clearHandler?.());
+  clearBtnEl?.addEventListener('click',  () => clearHandler?.());
+  exitBtnEl?.addEventListener('click',   () => exitHandler?.());
 
   onModeChange((mode) => {
     const active = mode === 'active';
+    idleCardEl?.classList.toggle('hidden', active);
     panelEl?.classList.toggle('hidden', !active);
     if (hintActionEl && !hintActionEl.classList.contains('success') && !hintActionEl.classList.contains('error')) {
       hintActionEl.innerHTML = active
@@ -255,6 +313,7 @@ export function initOverlay() {
   });
 
   if (getMode() === 'active') {
+    idleCardEl?.classList.add('hidden');
     panelEl?.classList.remove('hidden');
     if (hintActionEl) {
       hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> Exit Select mode`;
@@ -264,8 +323,10 @@ export function initOverlay() {
 
 // ── button callbacks ──────────────────────────────────────────────────────────
 
+export function onSelectButtonClick(cb: () => void) { selectHandler = cb; }
 export function onDeleteButtonClick(cb: () => void) { deleteHandler = cb; }
 export function onClearButtonClick(cb: () => void)  { clearHandler = cb; }
+export function onExitButtonClick(cb: () => void)   { exitHandler = cb; }
 
 // ── status API ────────────────────────────────────────────────────────────────
 
@@ -326,8 +387,9 @@ function clearStatusText() {
 export function destroyOverlay() {
   if (resultResetTimer) { clearTimeout(resultResetTimer); resultResetTimer = null; }
   host?.remove();
-  host = shadow = panelEl = dotEl = countBadgeEl = statusEl = progressBarEl = progressFillEl =
-    hintActionEl = actionBarEl = deleteBtnEl = clearBtnEl = null;
-  deleteHandler = clearHandler = null;
+  host = shadow = idleCardEl = panelEl = dotEl = countBadgeEl = statusEl =
+    progressBarEl = progressFillEl = actionBarEl = deleteBtnEl = clearBtnEl =
+    exitBtnEl = selectBtnEl = hintActionEl = null;
+  deleteHandler = clearHandler = selectHandler = exitHandler = null;
   activationKeyCache = '';
 }

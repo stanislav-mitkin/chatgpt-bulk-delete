@@ -7,7 +7,7 @@ import { extractIdFromHref } from './chat-list';
 import { deleteConversations } from './deleter';
 import {
   showConfirm, showProgress, showDeletedInStrip, clearStatus,
-  onDeleteButtonClick, onClearButtonClick,
+  onSelectButtonClick, onDeleteButtonClick, onClearButtonClick, onExitButtonClick,
 } from './overlay';
 
 const CONFIRM_TIMEOUT_MS = 2000;
@@ -150,8 +150,10 @@ function onClick(e: MouseEvent) {
 // ── init / destroy ────────────────────────────────────────────────────────────
 
 export function initKeybindings() {
+  onSelectButtonClick(() => enterMode());
   onDeleteButtonClick(() => executeDelete());
   onClearButtonClick(() => clearAll());
+  onExitButtonClick(() => { cancelPending(); exitMode(); });
   document.addEventListener('keydown', onKeyDown, { capture: true });
   document.addEventListener('mouseover', onMouseOver, { capture: true });
   document.addEventListener('mouseout', onMouseOut, { capture: true });
