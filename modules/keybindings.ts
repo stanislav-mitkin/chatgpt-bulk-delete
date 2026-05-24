@@ -66,7 +66,7 @@ async function confirmAndDelete() {
   });
 
   // Restore any failed items
-  result.failed.forEach((failedId, i) => {
+  result.failed.forEach((failedId) => {
     const item = items.find((it) => it.id === failedId);
     if (item) {
       const row = item.element.closest('li') ?? item.element.parentElement ?? item.element;

@@ -61,12 +61,11 @@ export function moveCursor(delta: number, extendSelection = false) {
   const prev = cursorIndex;
   cursorIndex = Math.max(0, Math.min(list.length - 1, cursorIndex + delta));
 
-  if (extendSelection && rangeAnchor !== null) {
-    // Select all items between anchor and new cursor position
+  if (extendSelection) {
+    // Set anchor on the first Shift+move if not already set
+    if (rangeAnchor === null) rangeAnchor = prev;
     const [from, to] = [Math.min(rangeAnchor, cursorIndex), Math.max(rangeAnchor, cursorIndex)];
-    for (let i = from; i <= to; i++) {
-      selectedIds.add(list[i].id);
-    }
+    for (let i = from; i <= to; i++) selectedIds.add(list[i].id);
   } else {
     rangeAnchor = null;
   }
