@@ -2,3 +2,5 @@ node_modules/
 .wxt/
 .output/
 *.zip
+test-profile/
+test-results/

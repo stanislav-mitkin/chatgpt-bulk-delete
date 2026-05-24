@@ -96,14 +96,19 @@ function onKeyDown(e: KeyboardEvent) {
   }
 
   if (getMode() !== 'active') return;
+
+  // Escape always exits selection mode, even from an input field
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    cancelPending();
+    exitMode();
+    return;
+  }
+
+  // All other keys: don't intercept typing in inputs
   if (isEditable(e.target)) return;
 
   switch (e.key) {
-    case 'Escape':
-      e.preventDefault();
-      cancelPending();
-      exitMode();
-      break;
 
     case 'j':
     case 'J':

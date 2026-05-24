@@ -1,12 +1,20 @@
 import { test, expect, chromium, type BrowserContext } from '@playwright/test';
 import path from 'path';
+import fs from 'fs';
 
 const EXTENSION_PATH = path.resolve(__dirname, '../.output/chrome-mv3');
+const PROFILE_DIR = path.resolve(__dirname, '../test-profile');
 const CHATGPT_URL = 'https://chatgpt.com';
 
-// Launches Chrome with the unpacked extension loaded
+// Launches Chrome with the extension and the saved auth session
 async function launchWithExtension(): Promise<BrowserContext> {
-  return chromium.launchPersistentContext('', {
+  if (!fs.existsSync(PROFILE_DIR)) {
+    throw new Error(
+      'No saved session found. Run auth setup first:\n' +
+      '  pnpm playwright test tests/auth-setup.ts'
+    );
+  }
+  return chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
     args: [
       `--disable-extensions-except=${EXTENSION_PATH}`,
@@ -32,18 +40,17 @@ test.describe('ChatGPT selector verification', () => {
     const page = await ctx.newPage();
     await page.goto(CHATGPT_URL, { waitUntil: 'domcontentloaded' });
 
-    // Wait up to 60s — user may need to log in manually
-    console.log('\n👉  If the login page appears, sign in now. Waiting up to 60s for the sidebar...\n');
-
     // Wait for nav or aside to appear (sidebar)
     await page.waitForSelector('nav, aside', { timeout: 60_000 });
 
-    // Verify our style tag was injected by the content script
-    const styleInjected = await page.evaluate(() => !!document.getElementById('cbd-styles'));
+    // Wait for content script to inject its style tag (async after sidebar appears)
+    await page.waitForFunction(() => !!document.getElementById('cbd-styles'), { timeout: 10_000 });
+    const styleInjected = true; // waitForFunction throws if not found
     expect(styleInjected, 'Content script injected <style id="cbd-styles">').toBe(true);
 
     // Verify overlay host was injected
-    const overlayInjected = await page.evaluate(() => !!document.getElementById('cbd-overlay-host'));
+    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
+    const overlayInjected = true;
     expect(overlayInjected, 'Content script injected Shadow DOM overlay').toBe(true);
 
     await page.close();
