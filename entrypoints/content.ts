@@ -1,34 +1,33 @@
 import { initChatList, onChatListChange, destroyChatList } from '../modules/chat-list';
+import { initKeybindings, destroyKeybindings } from '../modules/keybindings';
+import { injectStyles, removeStyles } from '../modules/styles';
+import { refreshClasses } from '../modules/selection';
 
 export default defineContentScript({
   matches: ['https://chatgpt.com/*', 'https://chat.openai.com/*'],
   main() {
-    // ChatGPT is a SPA — sidebar may not be ready at document_idle.
-    // Wait for first nav/aside to appear before initialising.
+    injectStyles();
+
     waitForSidebar(() => {
       initChatList();
+      initKeybindings();
 
-      onChatListChange((chats) => {
-        console.debug('[CBD] Chat list updated:', chats.length, 'chats', chats.map((c) => c.id));
-      });
+      // Re-apply selection classes when the chat list updates (pagination, new chats)
+      onChatListChange(() => refreshClasses());
     });
 
-    return () => destroyChatList();
+    return () => {
+      destroyKeybindings();
+      destroyChatList();
+      removeStyles();
+    };
   },
 });
 
 function waitForSidebar(cb: () => void) {
-  const sidebar = document.querySelector('nav, aside');
-  if (sidebar) {
-    cb();
-    return;
-  }
-
+  if (document.querySelector('nav, aside')) { cb(); return; }
   const mo = new MutationObserver(() => {
-    if (document.querySelector('nav, aside')) {
-      mo.disconnect();
-      cb();
-    }
+    if (document.querySelector('nav, aside')) { mo.disconnect(); cb(); }
   });
   mo.observe(document.body, { childList: true, subtree: true });
 }
