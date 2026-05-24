@@ -13,7 +13,7 @@ const listeners: ChangeCallback[] = [];
 // Extracts conversation ID from any href form:
 //   https://chatgpt.com/c/abc-123   (real site — full URL)
 //   /c/abc-123                       (mock page — relative)
-function extractId(href: string): string | null {
+export function extractIdFromHref(href: string): string | null {
   const match = href.match(/\/c\/([a-zA-Z0-9_-]{8,})/);
   return match ? match[1] : null;
 }
@@ -39,7 +39,7 @@ function buildChatList(): ChatItem[] {
 function parseLinkList(links: NodeListOf<HTMLAnchorElement>): ChatItem[] {
   const result: ChatItem[] = [];
   links.forEach((el) => {
-    const id = extractId(el.getAttribute('href') || '');
+    const id = extractIdFromHref(el.getAttribute('href') || '');
     if (!id) return;
     // Prefer aria-label (real site) then text content (mock)
     const title = el.getAttribute('aria-label') || el.textContent?.trim() || id;

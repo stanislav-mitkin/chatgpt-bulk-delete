@@ -1,22 +1,24 @@
 const STYLE_ID = 'cbd-styles';
 
 const CSS = `
-/* Keyboard cursor — visible ring around the focused chat */
-a.cbd-cursor {
-  outline: 2px solid #10a37f !important;
+/* Hovered chat in selection mode */
+a.cbd-hover {
+  outline: 2px solid rgba(16, 163, 127, 0.7) !important;
   outline-offset: -2px !important;
   border-radius: 6px !important;
+  cursor: pointer !important;
 }
 
-/* Selected chat — subtle green tint */
+/* Selected chat */
 a.cbd-selected {
   background-color: rgba(16, 163, 127, 0.18) !important;
   border-radius: 6px !important;
 }
 
-/* Selected AND under cursor */
-a.cbd-cursor.cbd-selected {
+/* Hovered + selected */
+a.cbd-hover.cbd-selected {
   background-color: rgba(16, 163, 127, 0.28) !important;
+  outline-color: #10a37f !important;
 }
 `;
 

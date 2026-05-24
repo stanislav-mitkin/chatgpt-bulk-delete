@@ -2,16 +2,15 @@ import { getChatList, type ChatItem } from './chat-list';
 
 export type SelectionMode = 'idle' | 'active';
 
-const CSS_CURSOR = 'cbd-cursor';
+const CSS_HOVER    = 'cbd-hover';
 const CSS_SELECTED = 'cbd-selected';
 
 let mode: SelectionMode = 'idle';
-let cursorIndex = 0;
 let selectedIds = new Set<string>();
-let rangeAnchor: number | null = null;
+let hoveredId: string | null = null;
 
 type ModeChangeCallback = (mode: SelectionMode) => void;
-type SelectionChangeCallback = (selectedIds: Set<string>, cursor: number) => void;
+type SelectionChangeCallback = (selectedIds: Set<string>) => void;
 
 const modeListeners: ModeChangeCallback[] = [];
 const selectionListeners: SelectionChangeCallback[] = [];
@@ -19,8 +18,8 @@ const selectionListeners: SelectionChangeCallback[] = [];
 // ── public state ──────────────────────────────────────────────────────────────
 
 export function getMode(): SelectionMode { return mode; }
-export function getCursorIndex(): number { return cursorIndex; }
 export function getSelectedIds(): Set<string> { return selectedIds; }
+export function getHoveredId(): string | null { return hoveredId; }
 
 export function getSelectedItems(): ChatItem[] {
   return getChatList().filter((c) => selectedIds.has(c.id));
@@ -34,10 +33,10 @@ export function onSelectionChange(cb: SelectionChangeCallback) { selectionListen
 export function enterMode() {
   if (mode === 'active') return;
   mode = 'active';
-  cursorIndex = 0;
   selectedIds = new Set();
-  rangeAnchor = null;
-  applyClasses();
+  hoveredId = null;
+  // Blur any focused input so Space / Cmd+A work immediately
+  (document.activeElement as HTMLElement)?.blur?.();
   modeListeners.forEach((cb) => cb(mode));
   notifySelection();
 }
@@ -46,94 +45,73 @@ export function exitMode() {
   if (mode === 'idle') return;
   mode = 'idle';
   selectedIds = new Set();
-  rangeAnchor = null;
+  hoveredId = null;
   clearAllClasses();
   modeListeners.forEach((cb) => cb(mode));
   notifySelection();
 }
 
-// ── cursor navigation ─────────────────────────────────────────────────────────
+// ── hover ─────────────────────────────────────────────────────────────────────
 
-export function moveCursor(delta: number, extendSelection = false) {
-  const list = getChatList();
-  if (!list.length) return;
+export function setHovered(id: string | null) {
+  if (hoveredId === id) return;
 
-  const prev = cursorIndex;
-  cursorIndex = Math.max(0, Math.min(list.length - 1, cursorIndex + delta));
-
-  if (extendSelection) {
-    // Set anchor on the first Shift+move if not already set
-    if (rangeAnchor === null) rangeAnchor = prev;
-    const [from, to] = [Math.min(rangeAnchor, cursorIndex), Math.max(rangeAnchor, cursorIndex)];
-    for (let i = from; i <= to; i++) selectedIds.add(list[i].id);
-  } else {
-    rangeAnchor = null;
+  // Remove hover class from previous
+  if (hoveredId) {
+    getChatList().find((c) => c.id === hoveredId)?.element.classList.remove(CSS_HOVER);
   }
-
-  if (prev !== cursorIndex) {
-    scrollCursorIntoView(list[cursorIndex]);
-    applyClasses();
-    notifySelection();
+  hoveredId = id;
+  if (id) {
+    getChatList().find((c) => c.id === id)?.element.classList.add(CSS_HOVER);
   }
 }
 
 // ── selection ─────────────────────────────────────────────────────────────────
 
-export function toggleCurrent() {
-  const list = getChatList();
-  if (!list.length) return;
-  const item = list[cursorIndex];
-  if (!item) return;
+export function toggleById(id: string) {
+  if (selectedIds.has(id)) selectedIds.delete(id);
+  else selectedIds.add(id);
 
-  if (selectedIds.has(item.id)) {
-    selectedIds.delete(item.id);
-  } else {
-    selectedIds.add(item.id);
-    rangeAnchor = cursorIndex; // anchor for future shift+move
-  }
+  const item = getChatList().find((c) => c.id === id);
+  if (item) item.element.classList.toggle(CSS_SELECTED, selectedIds.has(id));
 
-  applyClasses();
   notifySelection();
 }
 
+export function toggleHovered() {
+  if (hoveredId) toggleById(hoveredId);
+}
+
 export function selectAll() {
-  getChatList().forEach((c) => selectedIds.add(c.id));
-  applyClasses();
+  getChatList().forEach((c) => {
+    selectedIds.add(c.id);
+    c.element.classList.add(CSS_SELECTED);
+  });
   notifySelection();
 }
 
 export function clearAll() {
+  getChatList().forEach((c) => c.element.classList.remove(CSS_SELECTED));
   selectedIds = new Set();
-  rangeAnchor = null;
-  applyClasses();
   notifySelection();
 }
 
-// ── DOM classes ───────────────────────────────────────────────────────────────
-
-function applyClasses() {
-  const list = getChatList();
-  list.forEach((item, i) => {
-    item.element.classList.toggle(CSS_CURSOR, mode === 'active' && i === cursorIndex);
-    item.element.classList.toggle(CSS_SELECTED, selectedIds.has(item.id));
-  });
-}
+// ── DOM ───────────────────────────────────────────────────────────────────────
 
 function clearAllClasses() {
   getChatList().forEach((item) => {
-    item.element.classList.remove(CSS_CURSOR, CSS_SELECTED);
+    item.element.classList.remove(CSS_HOVER, CSS_SELECTED);
   });
 }
 
-function scrollCursorIntoView(item: ChatItem) {
-  item.element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+export function refreshClasses() {
+  if (mode !== 'active') return;
+  getChatList().forEach((item) => {
+    item.element.classList.toggle(CSS_SELECTED, selectedIds.has(item.id));
+    item.element.classList.toggle(CSS_HOVER, item.id === hoveredId);
+  });
 }
 
 function notifySelection() {
-  selectionListeners.forEach((cb) => cb(selectedIds, cursorIndex));
-}
-
-// Re-apply classes when the chat list refreshes (e.g. new chats loaded)
-export function refreshClasses() {
-  if (mode === 'active') applyClasses();
+  selectionListeners.forEach((cb) => cb(selectedIds));
 }

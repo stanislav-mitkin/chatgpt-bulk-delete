@@ -17,6 +17,11 @@ async function launch(): Promise<BrowserContext> {
   });
 }
 
+async function waitForOverlay(page: Parameters<typeof page.waitForFunction>[1] extends never ? never : import('@playwright/test').Page) {
+  await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
+  await page.waitForTimeout(400);
+}
+
 test.describe('Extension on mock ChatGPT page', () => {
   let ctx: BrowserContext;
 
@@ -34,26 +39,29 @@ test.describe('Extension on mock ChatGPT page', () => {
     await page.close();
   });
 
-  test('primary selector finds all 10 mock chats via data-sidebar-item', async () => {
+  test('idle hint is visible before activation', async () => {
+    const page = await ctx.newPage();
+    await page.goto(MOCK_PAGE);
+    await waitForOverlay(page);
+
+    const hintVisible = await page.evaluate(() => {
+      const hint = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.hint');
+      return hint && !hint.classList.contains('hidden');
+    });
+    expect(hintVisible, 'Idle hint should be visible').toBe(true);
+    await page.close();
+  });
+
+  test('primary selector finds all 10 mock chats', async () => {
     const page = await ctx.newPage();
     await page.goto(MOCK_PAGE);
     await page.waitForSelector('nav');
     await page.waitForTimeout(800);
 
-    const result = await page.evaluate(() => {
-      const primary = document.querySelectorAll('nav[aria-label="Chat history"] a[data-sidebar-item="true"]');
-      const fallback = document.querySelectorAll('nav a[href*="/c/"], aside a[href*="/c/"]');
-      return {
-        primaryCount: primary.length,
-        fallbackCount: fallback.length,
-        ids: Array.from(primary).map((el) => el.getAttribute('href')),
-      };
-    });
-
-    console.log(`\nPrimary (data-sidebar-item): ${result.primaryCount} chats`);
-    console.log(`Fallback (href*=/c/):         ${result.fallbackCount} chats`);
-
-    expect(result.primaryCount).toBe(10);
+    const count = await page.evaluate(() =>
+      document.querySelectorAll('nav[aria-label="Chat history"] a[data-sidebar-item="true"][href*="/c/"]').length
+    );
+    expect(count).toBe(10);
     await page.close();
   });
 
@@ -64,135 +72,136 @@ test.describe('Extension on mock ChatGPT page', () => {
     await page.waitForTimeout(1000);
 
     const result = await page.evaluate(() => {
-      // Precise selector: data-sidebar-item + href contains /c/ (excludes Home/Projects/etc.)
-      const primary = document.querySelectorAll('nav[aria-label="Chat history"] a[data-sidebar-item="true"][href*="/c/"]');
-      const fallback = document.querySelectorAll('nav a[href*="/c/"], aside a[href*="/c/"]');
-      const titles = Array.from(primary).map((el) =>
-        el.getAttribute('aria-label') || el.textContent?.trim().slice(0, 40)
+      const primary = document.querySelectorAll(
+        'nav[aria-label="Chat history"] a[data-sidebar-item="true"][href*="/c/"]'
       );
       return {
-        primaryCount: primary.length,
-        fallbackCount: fallback.length,
-        navLabels: Array.from(document.querySelectorAll('nav')).map((n) => n.getAttribute('aria-label')),
-        titles: titles.slice(0, 5),
+        count: primary.length,
+        titles: Array.from(primary).map((el) => el.getAttribute('aria-label')).slice(0, 5),
       };
     });
 
-    console.log('\n── Real ChatGPT HTML ─────────────────────────────');
-    console.log(`nav aria-labels:                   ${JSON.stringify(result.navLabels)}`);
-    console.log(`Primary (data-sidebar-item+/c/):   ${result.primaryCount} chats`);
-    console.log(`Fallback (href*=/c/):               ${result.fallbackCount} chats`);
-    console.log(`Titles: ${JSON.stringify(result.titles)}`);
-    console.log('──────────────────────────────────────────────────\n');
-
-    expect(result.primaryCount, 'Should find chats in saved ChatGPT page').toBeGreaterThan(0);
+    console.log(`\nReal ChatGPT HTML: ${result.count} chats — ${JSON.stringify(result.titles)}\n`);
+    expect(result.count).toBeGreaterThan(0);
     await page.close();
   });
 
-  test('Cmd+Shift+X shows overlay, Esc hides it (even from textarea)', async () => {
+  test('Cmd+Shift+K activates — hint hides, panel appears', async () => {
     const page = await ctx.newPage();
     await page.goto(MOCK_PAGE);
-    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
-    await page.waitForTimeout(500);
+    await waitForOverlay(page);
 
-    await page.keyboard.press('Meta+Shift+X');
+    await page.keyboard.press('Meta+Shift+K');
     await page.waitForTimeout(300);
 
-    const visibleAfterHotkey = await page.evaluate(() => {
-      const panel = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.panel');
-      return !panel?.classList.contains('hidden');
+    const state = await page.evaluate(() => {
+      const sr = document.getElementById('cbd-overlay-host')?.shadowRoot;
+      return {
+        hintHidden: sr?.querySelector('.hint')?.classList.contains('hidden'),
+        panelVisible: !sr?.querySelector('.panel')?.classList.contains('hidden'),
+        countText: sr?.querySelector('.count-badge')?.textContent,
+      };
     });
-    expect(visibleAfterHotkey, 'Panel visible after Cmd+Shift+X').toBe(true);
+
+    expect(state.hintHidden,   'Hint hides when active').toBe(true);
+    expect(state.panelVisible, 'Panel shows when active').toBe(true);
+    expect(state.countText,    'Initial count text').toBe('0 chats selected');
+    await page.close();
+  });
+
+  test('Esc exits — even when textarea is focused', async () => {
+    const page = await ctx.newPage();
+    await page.goto(MOCK_PAGE);
+    await waitForOverlay(page);
+
+    await page.keyboard.press('Meta+Shift+K');
+    await page.waitForTimeout(200);
 
     await page.locator('textarea').focus();
     await page.keyboard.press('Escape');
     await page.waitForTimeout(300);
 
-    const hiddenAfterEsc = await page.evaluate(() => {
-      const panel = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.panel');
-      return panel?.classList.contains('hidden');
-    });
-    expect(hiddenAfterEsc, 'Panel hidden after Esc from textarea').toBe(true);
+    const panelHidden = await page.evaluate(() =>
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.panel')?.classList.contains('hidden')
+    );
+    expect(panelHidden, 'Panel hides after Esc from textarea').toBe(true);
     await page.close();
   });
 
-  test('J/K moves cursor, Space selects, count updates', async () => {
+  test('hover + Space selects chat, count shows "1 chat selected"', async () => {
     const page = await ctx.newPage();
     await page.goto(MOCK_PAGE);
-    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
-    await page.waitForTimeout(500);
+    await waitForOverlay(page);
 
-    await page.keyboard.press('Meta+Shift+X');
+    await page.keyboard.press('Meta+Shift+K');
     await page.waitForTimeout(200);
 
-    const firstHref = await page.evaluate(() => document.querySelector('a.cbd-cursor')?.getAttribute('href'));
-    expect(firstHref).toContain('/c/aaa-');
-
-    await page.keyboard.press('j');
+    // Hover first chat
+    await page.hover('a[href*="/c/aaa-"]');
     await page.waitForTimeout(100);
-    const secondHref = await page.evaluate(() => document.querySelector('a.cbd-cursor')?.getAttribute('href'));
-    expect(secondHref).toContain('/c/bbb-');
 
-    await page.keyboard.press('j');
-    await page.waitForTimeout(100);
+    const hasHover = await page.evaluate(() =>
+      document.querySelector('a[href*="/c/aaa-"]')?.classList.contains('cbd-hover')
+    );
+    expect(hasHover, 'Hovered chat has cbd-hover class').toBe(true);
+
+    // Space selects it
     await page.keyboard.press('Space');
     await page.waitForTimeout(100);
 
-    const count = await page.evaluate(() =>
-      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+    const countText = await page.evaluate(() =>
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count-badge')?.textContent
     );
-    expect(count, 'Count badge shows 1').toBe('1');
+    expect(countText, 'Count badge after Space').toBe('1 chat selected');
 
     const isSelected = await page.evaluate(() =>
-      document.querySelector('a[href*="/c/ccc-"]')?.classList.contains('cbd-selected')
+      document.querySelector('a[href*="/c/aaa-"]')?.classList.contains('cbd-selected')
     );
-    expect(isSelected, 'Third chat has cbd-selected class').toBe(true);
+    expect(isSelected, 'Chat has cbd-selected class').toBe(true);
     await page.close();
   });
 
-  test('Shift+J range-selects multiple chats', async () => {
+  test('click selects chat (prevents navigation)', async () => {
     const page = await ctx.newPage();
     await page.goto(MOCK_PAGE);
-    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
-    await page.waitForTimeout(500);
+    await waitForOverlay(page);
 
-    await page.keyboard.press('Meta+Shift+X');
+    await page.keyboard.press('Meta+Shift+K');
     await page.waitForTimeout(200);
 
-    await page.keyboard.press('Shift+j');
-    await page.keyboard.press('Shift+j');
-    await page.keyboard.press('Shift+j');
+    await page.click('a[href*="/c/bbb-"]');
     await page.waitForTimeout(200);
 
-    const count = await page.evaluate(() =>
-      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+    const isSelected = await page.evaluate(() =>
+      document.querySelector('a[href*="/c/bbb-"]')?.classList.contains('cbd-selected')
     );
-    expect(count, 'Range select: 4 chats selected').toBe('4');
+    // Still on mock page (navigation was prevented)
+    expect(page.url()).toContain('chatgpt-mock.html');
+    expect(isSelected, 'Clicked chat is selected').toBe(true);
     await page.close();
   });
 
-  test('Cmd+A selects all, Cmd+D clears', async () => {
+  test('Cmd+A selects all 10, Cmd+D clears', async () => {
     const page = await ctx.newPage();
     await page.goto(MOCK_PAGE);
-    await page.waitForFunction(() => !!document.getElementById('cbd-overlay-host'), { timeout: 5_000 });
-    await page.waitForTimeout(500);
+    await waitForOverlay(page);
 
-    await page.keyboard.press('Meta+Shift+X');
+    await page.keyboard.press('Meta+Shift+K');
     await page.waitForTimeout(200);
 
     await page.keyboard.press('Meta+a');
     await page.waitForTimeout(100);
     const countAll = await page.evaluate(() =>
-      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count-badge')?.textContent
     );
-    expect(countAll, 'Cmd+A selects all 10').toBe('10');
+    expect(countAll).toBe('10 chats selected');
 
     await page.keyboard.press('Meta+d');
     await page.waitForTimeout(100);
     const countClear = await page.evaluate(() =>
-      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count')?.textContent
+      document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.count-badge')?.textContent
     );
-    expect(countClear, 'Cmd+D clears').toBe('0');
+    expect(countClear).toBe('0 chats selected');
     await page.close();
   });
 });

@@ -1,14 +1,9 @@
 import {
-  getMode,
-  enterMode,
-  exitMode,
-  moveCursor,
-  toggleCurrent,
-  selectAll,
-  clearAll,
-  getSelectedIds,
-  getSelectedItems,
+  getMode, enterMode, exitMode,
+  toggleHovered, toggleById, selectAll, clearAll,
+  setHovered, getSelectedIds, getSelectedItems,
 } from './selection';
+import { extractIdFromHref } from './chat-list';
 import { deleteConversations } from './deleter';
 import { showConfirm, showProgress, showResult, clearStatus } from './overlay';
 
@@ -17,16 +12,9 @@ const CONFIRM_TIMEOUT_MS = 2000;
 let pendingDelete = false;
 let confirmTimer: ReturnType<typeof setTimeout> | null = null;
 
-function isModifier(e: KeyboardEvent) {
-  const isMac = navigator.platform.toUpperCase().includes('MAC');
-  return isMac ? e.metaKey : e.ctrlKey;
-}
-
-function isEditable(target: EventTarget | null): boolean {
-  if (!target || !(target instanceof Element)) return false;
-  const tag = target.tagName;
-  return tag === 'INPUT' || tag === 'TEXTAREA' || (target as HTMLElement).isContentEditable;
-}
+// Use e.code (physical key position) — layout-independent, works in all languages
+const isMac = () => navigator.platform.toUpperCase().includes('MAC');
+const isModifier = (e: KeyboardEvent) => isMac() ? e.metaKey : e.ctrlKey;
 
 function cancelPending() {
   pendingDelete = false;
@@ -39,33 +27,24 @@ async function confirmAndDelete() {
   if (!ids.length) return;
 
   if (!pendingDelete) {
-    // First press: ask for confirmation
     pendingDelete = true;
     showConfirm(ids.length);
     confirmTimer = setTimeout(cancelPending, CONFIRM_TIMEOUT_MS);
     return;
   }
 
-  // Second press within timeout: delete
   cancelPending();
 
-  // Optimistic UI: hide elements immediately
   const items = getSelectedItems();
-  const hiddenEls: HTMLElement[] = [];
   items.forEach((item) => {
-    // Walk up to find the list item wrapper (<li> or similar container)
     const row = item.element.closest('li') ?? item.element.parentElement ?? item.element;
     (row as HTMLElement).style.display = 'none';
-    hiddenEls.push(row as HTMLElement);
   });
 
   exitMode();
 
-  const result = await deleteConversations(ids, (done, total) => {
-    showProgress(done, total);
-  });
+  const result = await deleteConversations(ids, (done, total) => showProgress(done, total));
 
-  // Restore any failed items
   result.failed.forEach((failedId) => {
     const item = items.find((it) => it.id === failedId);
     if (item) {
@@ -75,29 +54,22 @@ async function confirmAndDelete() {
   });
 
   showResult(result.succeeded.length, result.failed.length);
-
-  // Auto-clear success message after 3s
-  if (result.failed.length === 0) {
-    setTimeout(clearStatus, 3000);
-  }
+  if (result.failed.length === 0) setTimeout(clearStatus, 3000);
 }
 
+// ── keyboard ──────────────────────────────────────────────────────────────────
+
 function onKeyDown(e: KeyboardEvent) {
-  // Toggle mode: Cmd/Ctrl + Shift + X
-  if (isModifier(e) && e.shiftKey && e.key === 'X') {
+  // Toggle mode: Cmd/Ctrl + Shift + K  (e.code is layout-independent)
+  if (isModifier(e) && e.shiftKey && e.code === 'KeyK') {
     e.preventDefault();
-    if (getMode() === 'idle') {
-      enterMode();
-    } else {
-      cancelPending();
-      exitMode();
-    }
+    getMode() === 'idle' ? enterMode() : (cancelPending(), exitMode());
     return;
   }
 
   if (getMode() !== 'active') return;
 
-  // Escape always exits selection mode, even from an input field
+  // Escape: always exit, even from an input
   if (e.key === 'Escape') {
     e.preventDefault();
     cancelPending();
@@ -105,50 +77,28 @@ function onKeyDown(e: KeyboardEvent) {
     return;
   }
 
-  // All other keys: don't intercept typing in inputs
-  if (isEditable(e.target)) return;
+  // Space, Cmd+A, Cmd+D, Enter — don't intercept if a non-chat input is focused
+  const active = document.activeElement;
+  const inInput = active && (
+    active.tagName === 'INPUT' ||
+    active.tagName === 'TEXTAREA' ||
+    (active as HTMLElement).isContentEditable
+  );
+  if (inInput) return;
 
-  switch (e.key) {
-
-    case 'j':
-    case 'J':
-    case 'ArrowDown':
+  switch (e.code) {
+    case 'Space':
       e.preventDefault();
       cancelPending();
-      moveCursor(+1, e.shiftKey);
+      toggleHovered();
       break;
 
-    case 'k':
-    case 'K':
-    case 'ArrowUp':
-      e.preventDefault();
-      cancelPending();
-      moveCursor(-1, e.shiftKey);
+    case 'KeyA':
+      if (isModifier(e)) { e.preventDefault(); cancelPending(); selectAll(); }
       break;
 
-    case ' ':
-    case 'x':
-      e.preventDefault();
-      cancelPending();
-      toggleCurrent();
-      break;
-
-    case 'a':
-    case 'A':
-      if (isModifier(e)) {
-        e.preventDefault();
-        cancelPending();
-        selectAll();
-      }
-      break;
-
-    case 'd':
-    case 'D':
-      if (isModifier(e)) {
-        e.preventDefault();
-        cancelPending();
-        clearAll();
-      }
+    case 'KeyD':
+      if (isModifier(e)) { e.preventDefault(); cancelPending(); clearAll(); }
       break;
 
     case 'Enter':
@@ -158,11 +108,55 @@ function onKeyDown(e: KeyboardEvent) {
   }
 }
 
+// ── mouse: hover + click delegation ──────────────────────────────────────────
+
+const CHAT_SELECTOR = 'a[data-sidebar-item="true"][href*="/c/"], a[href*="/c/"]';
+
+function getChatEl(target: EventTarget | null): HTMLAnchorElement | null {
+  if (!target || !(target instanceof Element)) return null;
+  return target.closest<HTMLAnchorElement>(CHAT_SELECTOR);
+}
+
+function onMouseOver(e: MouseEvent) {
+  if (getMode() !== 'active') return;
+  const el = getChatEl(e.target);
+  if (!el) return;
+  const id = el.dataset.chatId ?? extractIdFromHref(el.getAttribute('href') || '');
+  if (id) {
+    if (!el.dataset.chatId) el.dataset.chatId = id;
+    setHovered(id);
+  }
+}
+
+function onMouseOut(e: MouseEvent) {
+  if (getMode() !== 'active') return;
+  const el = getChatEl(e.target);
+  if (el) setHovered(null);
+}
+
+function onClick(e: MouseEvent) {
+  if (getMode() !== 'active') return;
+  const el = getChatEl(e.target);
+  if (!el) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const id = el.dataset.chatId ?? extractIdFromHref(el.getAttribute('href') || '');
+  if (id) toggleById(id);
+}
+
+// ── init / destroy ────────────────────────────────────────────────────────────
+
 export function initKeybindings() {
   document.addEventListener('keydown', onKeyDown, { capture: true });
+  document.addEventListener('mouseover', onMouseOver, { capture: true });
+  document.addEventListener('mouseout', onMouseOut, { capture: true });
+  document.addEventListener('click', onClick, { capture: true });
 }
 
 export function destroyKeybindings() {
   cancelPending();
   document.removeEventListener('keydown', onKeyDown, { capture: true });
+  document.removeEventListener('mouseover', onMouseOver, { capture: true });
+  document.removeEventListener('mouseout', onMouseOut, { capture: true });
+  document.removeEventListener('click', onClick, { capture: true });
 }
