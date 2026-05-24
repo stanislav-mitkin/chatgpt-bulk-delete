@@ -25,6 +25,8 @@ async function launchWithExtension(): Promise<BrowserContext> {
   });
 }
 
+// ⚠️  Run sparingly to avoid triggering ChatGPT bot detection / CAPTCHA.
+// Each test opens a real page in headed Chrome — treat like a manual browser session.
 test.describe('ChatGPT selector verification', () => {
   let ctx: BrowserContext;
 
@@ -34,6 +36,11 @@ test.describe('ChatGPT selector verification', () => {
 
   test.afterAll(async () => {
     await ctx.close();
+  });
+
+  // Small pause between tests — avoids rapid-fire navigation that looks bot-like
+  test.afterEach(async () => {
+    await new Promise((r) => setTimeout(r, 1500));
   });
 
   test('page loads and content script injects', async () => {

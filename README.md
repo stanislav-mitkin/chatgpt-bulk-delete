@@ -36,3 +36,21 @@ Then open `chrome://extensions`, enable **Developer mode**, click **Load unpacke
 ## Selector maintenance
 
 If ChatGPT changes its DOM structure, update `buildChatList()` in [`modules/chat-list.ts`](modules/chat-list.ts).
+
+## Testing
+
+Tests use real Chrome with the extension loaded against live chatgpt.com.
+
+**First time setup** (saves your session once):
+```bash
+pnpm auth     # opens Chrome → log in → close window
+```
+
+**Run tests:**
+```bash
+pnpm test
+```
+
+> ⚠️ **Run sparingly.** Each test run opens real ChatGPT pages.
+> Frequent automated requests may trigger bot detection or CAPTCHA.
+> Run only when verifying selectors after a ChatGPT UI update.
