@@ -5,14 +5,16 @@ import {
 } from './selection';
 import { extractIdFromHref } from './chat-list';
 import { deleteConversations } from './deleter';
-import { showConfirm, showProgress, showResult, clearStatus } from './overlay';
+import {
+  showConfirm, showProgress, showDeletedInStrip, clearStatus,
+  onDeleteButtonClick, onClearButtonClick,
+} from './overlay';
 
 const CONFIRM_TIMEOUT_MS = 2000;
 
 let pendingDelete = false;
 let confirmTimer: ReturnType<typeof setTimeout> | null = null;
 
-// Use e.code (physical key position) — layout-independent, works in all languages
 const isMac = () => navigator.platform.toUpperCase().includes('MAC');
 const isModifier = (e: KeyboardEvent) => isMac() ? e.metaKey : e.ctrlKey;
 
@@ -22,18 +24,9 @@ function cancelPending() {
   clearStatus();
 }
 
-async function confirmAndDelete() {
+async function executeDelete() {
   const ids = [...getSelectedIds()];
   if (!ids.length) return;
-
-  if (!pendingDelete) {
-    pendingDelete = true;
-    showConfirm(ids.length);
-    confirmTimer = setTimeout(cancelPending, CONFIRM_TIMEOUT_MS);
-    return;
-  }
-
-  cancelPending();
 
   const items = getSelectedItems();
   items.forEach((item) => {
@@ -53,14 +46,26 @@ async function confirmAndDelete() {
     }
   });
 
-  showResult(result.succeeded.length, result.failed.length);
-  if (result.failed.length === 0) setTimeout(clearStatus, 3000);
+  showDeletedInStrip(result.succeeded.length, result.failed.length);
+}
+
+async function confirmAndDelete() {
+  if (!getSelectedIds().size) return;
+
+  if (!pendingDelete) {
+    pendingDelete = true;
+    showConfirm(getSelectedIds().size);
+    confirmTimer = setTimeout(cancelPending, CONFIRM_TIMEOUT_MS);
+    return;
+  }
+
+  cancelPending();
+  await executeDelete();
 }
 
 // ── keyboard ──────────────────────────────────────────────────────────────────
 
 function onKeyDown(e: KeyboardEvent) {
-  // Toggle mode: Cmd/Ctrl + Shift + K  (e.code is layout-independent)
   if (isModifier(e) && e.shiftKey && e.code === 'KeyK') {
     e.preventDefault();
     getMode() === 'idle' ? enterMode() : (cancelPending(), exitMode());
@@ -69,7 +74,6 @@ function onKeyDown(e: KeyboardEvent) {
 
   if (getMode() !== 'active') return;
 
-  // Escape: always exit, even from an input
   if (e.key === 'Escape') {
     e.preventDefault();
     cancelPending();
@@ -77,7 +81,6 @@ function onKeyDown(e: KeyboardEvent) {
     return;
   }
 
-  // Space, Cmd+A, Cmd+D, Enter — don't intercept if a non-chat input is focused
   const active = document.activeElement;
   const inInput = active && (
     active.tagName === 'INPUT' ||
@@ -147,6 +150,8 @@ function onClick(e: MouseEvent) {
 // ── init / destroy ────────────────────────────────────────────────────────────
 
 export function initKeybindings() {
+  onDeleteButtonClick(() => executeDelete());
+  onClearButtonClick(() => clearAll());
   document.addEventListener('keydown', onKeyDown, { capture: true });
   document.addEventListener('mouseover', onMouseOver, { capture: true });
   document.addEventListener('mouseout', onMouseOut, { capture: true });

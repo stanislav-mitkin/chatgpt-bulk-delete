@@ -14,21 +14,26 @@ const SHADOW_CSS = `
     pointer-events: none;
   }
 
-  /* ── idle hint ──────────────────────────────────────────────────────────── */
+  /* ── persistent bottom strip ──────────────────────────────────────────── */
   .hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 11px;
-    color: rgba(255,255,255,0.3);
-    text-align: right;
+    color: rgba(255,255,255,0.22);
     line-height: 1.5;
-    transition: opacity 0.2s;
+    margin-top: 6px;
   }
-  .hint.hidden { opacity: 0; }
   .hint .shortcut {
     font-family: 'SF Mono', 'Fira Code', monospace;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.07);
     border-radius: 3px;
     padding: 1px 4px;
   }
+  .hint-action { flex: 1; white-space: nowrap; transition: color 0.2s; }
+  .hint-action.success { color: #10a37f; }
+  .hint-action.error   { color: #ef4444; }
+  .hint-brand  { white-space: nowrap; }
 
   /* ── active panel ────────────────────────────────────────────────────────── */
   .panel {
@@ -95,6 +100,31 @@ const SHADOW_CSS = `
   }
   .label { font-size: 11px; color: rgba(255,255,255,0.45); }
 
+  /* ── action buttons ──────────────────────────────────────────────────────── */
+  .action-bar {
+    display: none;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .action-bar.visible { display: flex; pointer-events: auto; }
+  .btn {
+    flex: 1;
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover { opacity: 0.8; }
+  .btn-delete { background: #ef4444; color: #fff; }
+  .btn-clear  { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.6); }
+
   .status {
     display: none;
     font-size: 12px;
@@ -124,20 +154,28 @@ const SHADOW_CSS = `
 
 let host: HTMLElement | null = null;
 let shadow: ShadowRoot | null = null;
-let hintEl: HTMLElement | null = null;
 let panelEl: HTMLElement | null = null;
 let dotEl: HTMLElement | null = null;
 let countBadgeEl: HTMLElement | null = null;
 let statusEl: HTMLElement | null = null;
 let progressBarEl: HTMLElement | null = null;
 let progressFillEl: HTMLElement | null = null;
+let hintActionEl: HTMLElement | null = null;
+let actionBarEl: HTMLElement | null = null;
+let deleteBtnEl: HTMLButtonElement | null = null;
+let clearBtnEl: HTMLButtonElement | null = null;
+
+let activationKeyCache = '';
+let deleteHandler: (() => void) | null = null;
+let clearHandler: (() => void) | null = null;
+let resultResetTimer: ReturnType<typeof setTimeout> | null = null;
 
 export function initOverlay() {
   if (document.getElementById(HOST_ID)) return;
 
   const mac = isMac();
   const mod = mac ? '⌘' : 'Ctrl+';
-  const activationKey = mac ? '⌘⇧K' : 'Ctrl+Shift+K';
+  activationKeyCache = mac ? '⌘⇧K' : 'Ctrl+Shift+K';
 
   const hints = [
     ['click / Space', 'select chat'],
@@ -153,9 +191,6 @@ export function initOverlay() {
 
   shadow.innerHTML = `
     <style>${SHADOW_CSS}</style>
-    <div class="hint">
-      ChatGPT Bulk Delete &nbsp;<span class="shortcut">${activationKey}</span>
-    </div>
     <div class="panel hidden">
       <div class="header">
         <span class="dot"></span>
@@ -165,26 +200,44 @@ export function initOverlay() {
       <div class="hints">
         ${hints.map(([k, l]) => `<span class="key">${k}</span><span class="label">${l}</span>`).join('')}
       </div>
+      <div class="action-bar">
+        <button class="btn btn-clear">Clear</button>
+        <button class="btn btn-delete">Delete</button>
+      </div>
       <div class="status"></div>
       <div class="progress-bar"><div class="progress-fill"></div></div>
       <div class="branding">ChatGPT Bulk Delete</div>
+    </div>
+    <div class="hint">
+      <span class="hint-action"><span class="shortcut">${activationKeyCache}</span> Enter Select mode</span>
+      <span class="hint-brand">ChatGPT Bulk Delete</span>
     </div>
   `;
 
   document.body.appendChild(host);
 
-  hintEl        = shadow.querySelector('.hint');
-  panelEl       = shadow.querySelector('.panel');
-  dotEl         = shadow.querySelector('.dot');
-  countBadgeEl  = shadow.querySelector('.count-badge');
-  statusEl      = shadow.querySelector('.status');
-  progressBarEl = shadow.querySelector('.progress-bar');
+  panelEl        = shadow.querySelector('.panel');
+  dotEl          = shadow.querySelector('.dot');
+  countBadgeEl   = shadow.querySelector('.count-badge');
+  statusEl       = shadow.querySelector('.status');
+  progressBarEl  = shadow.querySelector('.progress-bar');
   progressFillEl = shadow.querySelector('.progress-fill');
+  hintActionEl   = shadow.querySelector('.hint-action');
+  actionBarEl    = shadow.querySelector('.action-bar');
+  deleteBtnEl    = shadow.querySelector('.btn-delete');
+  clearBtnEl     = shadow.querySelector('.btn-clear');
+
+  deleteBtnEl?.addEventListener('click', () => deleteHandler?.());
+  clearBtnEl?.addEventListener('click', () => clearHandler?.());
 
   onModeChange((mode) => {
     const active = mode === 'active';
-    hintEl?.classList.toggle('hidden', active);
     panelEl?.classList.toggle('hidden', !active);
+    if (hintActionEl && !hintActionEl.classList.contains('success') && !hintActionEl.classList.contains('error')) {
+      hintActionEl.innerHTML = active
+        ? `<span class="shortcut">${activationKeyCache}</span> Exit Select mode`
+        : `<span class="shortcut">${activationKeyCache}</span> Enter Select mode`;
+    }
     if (!active) clearStatus();
   });
 
@@ -195,13 +248,24 @@ export function initOverlay() {
     countBadgeEl.classList.toggle('has-selection', n > 0);
     countBadgeEl.classList.remove('warn', 'danger');
     dotEl?.classList.remove('warn', 'danger');
+    actionBarEl?.classList.toggle('visible', n > 0);
+    if (deleteBtnEl) {
+      deleteBtnEl.textContent = n === 1 ? 'Delete 1 chat' : `Delete ${n} chats`;
+    }
   });
 
   if (getMode() === 'active') {
-    hintEl?.classList.add('hidden');
     panelEl?.classList.remove('hidden');
+    if (hintActionEl) {
+      hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> Exit Select mode`;
+    }
   }
 }
+
+// ── button callbacks ──────────────────────────────────────────────────────────
+
+export function onDeleteButtonClick(cb: () => void) { deleteHandler = cb; }
+export function onClearButtonClick(cb: () => void)  { clearHandler = cb; }
 
 // ── status API ────────────────────────────────────────────────────────────────
 
@@ -218,16 +282,26 @@ export function showProgress(done: number, total: number) {
   progressFillEl.style.width = `${Math.round((done / total) * 100)}%`;
 }
 
-export function showResult(succeeded: number, failed: number) {
-  progressBarEl?.classList.remove('visible');
-  dotEl?.classList.remove('warn', 'danger');
+export function showDeletedInStrip(succeeded: number, failed: number) {
+  if (!hintActionEl) return;
+  if (resultResetTimer) { clearTimeout(resultResetTimer); resultResetTimer = null; }
+
   if (failed === 0) {
-    setStatus(`Deleted ${succeeded} chat${succeeded !== 1 ? 's' : ''}`, 'success');
+    hintActionEl.textContent = `Deleted ${succeeded} chat${succeeded !== 1 ? 's' : ''}`;
+    hintActionEl.className = 'hint-action success';
   } else {
-    setStatus(`Deleted ${succeeded}, failed ${failed}`, 'error');
-    countBadgeEl?.classList.add('danger');
-    dotEl?.classList.add('danger');
+    hintActionEl.textContent = `Deleted ${succeeded}, failed ${failed}`;
+    hintActionEl.className = 'hint-action error';
   }
+
+  resultResetTimer = setTimeout(resetHintAction, 3000);
+}
+
+function resetHintAction() {
+  resultResetTimer = null;
+  if (!hintActionEl) return;
+  hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> Enter Select mode`;
+  hintActionEl.className = 'hint-action';
 }
 
 export function clearStatus() {
@@ -250,6 +324,10 @@ function clearStatusText() {
 }
 
 export function destroyOverlay() {
+  if (resultResetTimer) { clearTimeout(resultResetTimer); resultResetTimer = null; }
   host?.remove();
-  host = shadow = hintEl = panelEl = dotEl = countBadgeEl = statusEl = progressBarEl = progressFillEl = null;
+  host = shadow = panelEl = dotEl = countBadgeEl = statusEl = progressBarEl = progressFillEl =
+    hintActionEl = actionBarEl = deleteBtnEl = clearBtnEl = null;
+  deleteHandler = clearHandler = null;
+  activationKeyCache = '';
 }
