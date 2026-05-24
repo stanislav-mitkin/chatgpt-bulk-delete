@@ -9,14 +9,14 @@ import {
   showConfirm, showProgress, showDeletedInStrip, clearStatus,
   onSelectButtonClick, onDeleteButtonClick, onClearButtonClick, onExitButtonClick,
 } from './overlay';
+import { isMac } from './platform';
 
 const CONFIRM_TIMEOUT_MS = 2000;
 
 let pendingDelete = false;
 let confirmTimer: ReturnType<typeof setTimeout> | null = null;
 
-const isMac = () => navigator.platform.toUpperCase().includes('MAC');
-const isModifier = (e: KeyboardEvent) => isMac() ? e.metaKey : e.ctrlKey;
+const isModifier = (e: KeyboardEvent) => isMac ? e.metaKey : e.ctrlKey;
 
 function cancelPending() {
   pendingDelete = false;
@@ -113,7 +113,7 @@ function onKeyDown(e: KeyboardEvent) {
 
 // ── mouse: hover + click delegation ──────────────────────────────────────────
 
-const CHAT_SELECTOR = 'a[data-sidebar-item="true"][href*="/c/"], a[href*="/c/"]';
+const CHAT_SELECTOR = 'a[data-sidebar-item="true"][href*="/c/"], nav a[href*="/c/"], aside a[href*="/c/"]';
 
 function getChatEl(target: EventTarget | null): HTMLAnchorElement | null {
   if (!target || !(target instanceof Element)) return null;
@@ -134,7 +134,9 @@ function onMouseOver(e: MouseEvent) {
 function onMouseOut(e: MouseEvent) {
   if (getMode() !== 'active') return;
   const el = getChatEl(e.target);
-  if (el) setHovered(null);
+  if (!el) return;
+  if (el.contains(e.relatedTarget as Node)) return;
+  setHovered(null);
 }
 
 function onClick(e: MouseEvent) {

@@ -1,8 +1,8 @@
 import { onModeChange, onSelectionChange, getMode } from './selection';
 import { t } from './i18n';
+import { isMac } from './platform';
 
 const HOST_ID = 'cbd-overlay-host';
-const isMac = () => navigator.platform.toUpperCase().includes('MAC');
 
 const SHADOW_CSS = `
   /* ── theme tokens ─────────────────────────────────────────────────────────── */
@@ -286,7 +286,7 @@ function applyTheme(theme: 'dark' | 'light') {
 export function initOverlay() {
   if (document.getElementById(HOST_ID)) return;
 
-  const mac = isMac();
+  const mac = isMac;
   const mod = mac ? '⌘' : 'Ctrl+';
   activationKeyCache = mac ? '⌘⇧K' : 'Ctrl+Shift+K';
 
@@ -437,7 +437,8 @@ export function showDeletedInStrip(succeeded: number, failed: number) {
 function resetHintAction() {
   resultResetTimer = null;
   if (!hintActionEl) return;
-  hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> ${t('enter')}`;
+  const label = getMode() === 'active' ? t('exitMode') : t('enter');
+  hintActionEl.innerHTML = `<span class="shortcut">${activationKeyCache}</span> ${label}`;
   hintActionEl.className = 'hint-action';
 }
 

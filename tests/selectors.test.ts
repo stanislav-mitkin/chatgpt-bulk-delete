@@ -45,7 +45,7 @@ test.describe('Extension on mock ChatGPT page', () => {
     await waitForOverlay(page);
 
     const hintVisible = await page.evaluate(() => {
-      const hint = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.hint');
+      const hint = document.getElementById('cbd-overlay-host')?.shadowRoot?.querySelector('.idle-card');
       return hint && !hint.classList.contains('hidden');
     });
     expect(hintVisible, 'Idle hint should be visible').toBe(true);
@@ -97,7 +97,7 @@ test.describe('Extension on mock ChatGPT page', () => {
     const state = await page.evaluate(() => {
       const sr = document.getElementById('cbd-overlay-host')?.shadowRoot;
       return {
-        hintHidden: sr?.querySelector('.hint')?.classList.contains('hidden'),
+        hintHidden: sr?.querySelector('.idle-card')?.classList.contains('hidden'),
         panelVisible: !sr?.querySelector('.panel')?.classList.contains('hidden'),
         countText: sr?.querySelector('.count-badge')?.textContent,
       };
