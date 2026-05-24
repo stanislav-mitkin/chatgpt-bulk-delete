@@ -91,16 +91,30 @@ const SHADOW_CSS = `
   /* ── idle card ───────────────────────────────────────────────────────────── */
   .idle-card {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
     padding: 8px 10px 8px 13px;
     margin-bottom: 6px;
+  }
+  .idle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   .idle-hint {
     font-size: 11px;
     color: var(--text-dim);
     white-space: nowrap;
   }
+  .idle-result {
+    display: none;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid var(--divider);
+  }
+  .idle-result.visible         { display: block; }
+  .idle-result.idle-success    { color: var(--success); }
+  .idle-result.idle-error      { color: var(--error); }
 
   /* ── select-mode panel ───────────────────────────────────────────────────── */
   .panel {
@@ -234,6 +248,7 @@ let shadow: ShadowRoot | null = null;
 let themeObserver: MutationObserver | null = null;
 
 let idleCardEl: HTMLElement | null = null;
+let idleResultEl: HTMLElement | null = null;
 let panelEl: HTMLElement | null = null;
 let dotEl: HTMLElement | null = null;
 let countBadgeEl: HTMLElement | null = null;
@@ -250,7 +265,7 @@ let deleteHandler: (() => void) | null = null;
 let clearHandler:  (() => void) | null = null;
 let selectHandler: (() => void) | null = null;
 let exitHandler:   (() => void) | null = null;
-let resultResetTimer: ReturnType<typeof setTimeout> | null = null;
+let idleResultTimer: ReturnType<typeof setTimeout> | null = null;
 
 // ── theme ─────────────────────────────────────────────────────────────────────
 
@@ -289,8 +304,11 @@ export function initOverlay() {
     <style>${SHADOW_CSS}</style>
 
     <div class="card idle-card">
-      <span class="idle-hint"><span class="shortcut">${activationKeyCache}</span> ${t('idle_hint')}</span>
-      <button class="btn btn-select">${t('btn_select')}</button>
+      <div class="idle-row">
+        <span class="idle-hint"><span class="shortcut">${activationKeyCache}</span> ${t('idle_hint')}</span>
+        <button class="btn btn-select">${t('btn_select')}</button>
+      </div>
+      <span class="idle-result"></span>
     </div>
 
     <div class="card panel hidden">
@@ -318,6 +336,7 @@ export function initOverlay() {
   document.body.appendChild(host);
 
   idleCardEl     = shadow.querySelector('.idle-card');
+  idleResultEl   = shadow.querySelector('.idle-result');
   panelEl        = shadow.querySelector('.panel');
   dotEl          = shadow.querySelector('.dot');
   countBadgeEl   = shadow.querySelector('.count-badge');
@@ -392,15 +411,20 @@ export function showProgress(done: number, total: number) {
 }
 
 export function showDeletedInStrip(succeeded: number, failed: number) {
-  if (resultResetTimer) { clearTimeout(resultResetTimer); resultResetTimer = null; }
+  if (idleResultTimer) { clearTimeout(idleResultTimer); idleResultTimer = null; }
+  if (!idleResultEl) return;
 
-  if (failed === 0) {
-    setStatus(succeeded === 1 ? t('done1') : t('doneN', [String(succeeded)]), 'success');
-  } else {
-    setStatus(t('doneFail', [String(succeeded), String(failed)]), 'error');
-  }
+  const msg = failed === 0
+    ? (succeeded === 1 ? t('done1') : t('doneN', [String(succeeded)]))
+    : t('doneFail', [String(succeeded), String(failed)]);
 
-  resultResetTimer = setTimeout(() => { resultResetTimer = null; clearStatus(); }, 3000);
+  idleResultEl.textContent = msg;
+  idleResultEl.className = `idle-result visible ${failed === 0 ? 'idle-success' : 'idle-error'}`;
+
+  idleResultTimer = setTimeout(() => {
+    idleResultTimer = null;
+    if (idleResultEl) idleResultEl.className = 'idle-result';
+  }, 3000);
 }
 
 export function clearStatus() {
@@ -425,9 +449,9 @@ function clearStatusText() {
 export function destroyOverlay() {
   themeObserver?.disconnect();
   themeObserver = null;
-  if (resultResetTimer) { clearTimeout(resultResetTimer); resultResetTimer = null; }
+  if (idleResultTimer) { clearTimeout(idleResultTimer); idleResultTimer = null; }
   host?.remove();
-  host = shadow = idleCardEl = panelEl = dotEl = countBadgeEl = statusEl =
+  host = shadow = idleCardEl = idleResultEl = panelEl = dotEl = countBadgeEl = statusEl =
     progressBarEl = progressFillEl = actionBarEl = deleteBtnEl = clearBtnEl =
     exitBtnEl = selectBtnEl = null;
   deleteHandler = clearHandler = selectHandler = exitHandler = null;
