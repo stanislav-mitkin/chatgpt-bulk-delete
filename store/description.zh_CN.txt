@@ -1,0 +1,44 @@
+🗑️ 几秒内批量删除 ChatGPT 对话。选择全部或挑选特定聊天 — 一键全部删除。
+
+厌倦了逐条删除 ChatGPT 聊天记录？ChatGPT Chat Cleaner 在 ChatGPT 侧边栏中直接添加选择模式，让你一次标记多个对话并批量删除。非常适合整理聊天历史、清理旧对话。
+
+使用方法
+————————
+
+1. 打开 chatgpt.com
+2. 点击侧边栏中的「Select chats」按钮 — 或按下 Ctrl+Shift+K（Mac 上为 Cmd+Shift+K）
+3. 将鼠标悬停在聊天上并按空格键，或直接点击对话进行选择
+4. 按 Enter 确认（确认 → 再次按 Enter），或点击删除按钮，一次性移除所有已选内容
+
+⌨️ 键盘快捷键
+——————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — 进入 / 退出选择模式
+• 空格 — 切换光标下方聊天的选中状态
+• Ctrl+A / Cmd+A — 选择所有聊天
+• Ctrl+D / Cmd+D — 清除选择
+• Enter → Enter — 删除已选项目（两步确认）
+• Escape — 退出选择模式
+
+✨ 功能特点
+————————
+
+✓ 批量选择并删除任意数量的对话
+✓ 一个快捷键即可全选
+✓ 两步删除确认 — 防止误删
+✓ 全键盘操作工作流
+✓ 支持 chatgpt.com 和 chat.openai.com
+✓ 轻量级 — 无后台脚本，不连接第三方服务器
+✓ 无需账号，无需登录，不收集任何数据
+
+🔒 隐私说明
+————————
+
+ChatGPT Chat Cleaner 不收集、存储或传输任何个人数据。扩展程序仅代表你直接向 ChatGPT 自身的 API 发送删除请求 — 与你手动删除聊天时 ChatGPT 执行的请求完全相同。
+
+🌍 支持语言
+————————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+适合开发者、研究人员、AI 重度用户，以及所有希望保持 ChatGPT 整洁有序的用户。

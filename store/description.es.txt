@@ -1,0 +1,44 @@
+🗑️ Elimina conversaciones de ChatGPT en bloque, en segundos. Selecciona todas o elige las que quieras — y bórralas con un solo clic.
+
+¿Cansado de eliminar los chats de ChatGPT uno por uno? ChatGPT Chat Cleaner añade un modo de selección directamente en la barra lateral de ChatGPT para que puedas marcar varias conversaciones y eliminarlas todas a la vez. Ideal para ordenar tu historial y limpiar las conversaciones antiguas.
+
+CÓMO FUNCIONA
+—————————————
+
+1. Abre chatgpt.com
+2. Haz clic en el botón «Select chats» de la barra lateral — o pulsa Ctrl+Mayús+K (Cmd+Mayús+K en Mac)
+3. Pasa el cursor sobre un chat y pulsa Espacio, o haz clic en las conversaciones para seleccionarlas
+4. Pulsa Intro (confirma → Intro de nuevo) o haz clic en Eliminar para borrarlas todas
+
+⌨️ ATAJOS DE TECLADO
+—————————————————
+
+• Ctrl+Mayús+K / Cmd+Mayús+K — Entrar / salir del modo de selección
+• Espacio — Alternar selección del chat bajo el cursor
+• Ctrl+A / Cmd+A — Seleccionar todos los chats
+• Ctrl+D / Cmd+D — Borrar selección
+• Intro → Intro — Eliminar seleccionados (confirmación en dos pasos)
+• Escape — Salir del modo de selección
+
+✨ FUNCIONES
+—————————
+
+✓ Selección y eliminación en bloque de cualquier número de conversaciones
+✓ Seleccionar todo con un solo atajo
+✓ Confirmación de eliminación en dos pasos — sin borrados accidentales
+✓ Flujo de trabajo completamente con teclado
+✓ Funciona en chatgpt.com y en chat.openai.com
+✓ Ligero — sin scripts en segundo plano ni llamadas a servidores de terceros
+✓ Sin cuenta, sin inicio de sesión, sin recopilación de datos
+
+🔒 PRIVACIDAD
+——————————
+
+ChatGPT Chat Cleaner no recopila, almacena ni transmite ningún dato personal. La extensión solo envía solicitudes de eliminación directamente a la propia API de ChatGPT en tu nombre — las mismas solicitudes que ChatGPT realiza cuando eliminas un chat manualmente.
+
+🌍 IDIOMAS
+———————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+Perfecto para desarrolladores, investigadores, usuarios avanzados de IA y cualquiera que quiera mantener ChatGPT limpio y organizado.

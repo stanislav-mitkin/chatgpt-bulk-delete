@@ -1,0 +1,44 @@
+🗑️ Usuwaj rozmowy z ChatGPT masowo, w kilka sekund. Zaznacz wszystkie lub wybierz konkretne czaty — i usuń je jednym kliknięciem.
+
+Masz dość usuwania czatów z ChatGPT jeden po jednym? ChatGPT Chat Cleaner dodaje tryb zaznaczania bezpośrednio do paska bocznego ChatGPT, dzięki czemu możesz oznaczyć wiele rozmów i usunąć je wszystkie naraz. Idealny do porządkowania historii i czyszczenia starych czatów.
+
+JAK TO DZIAŁA
+—————————————
+
+1. Otwórz chatgpt.com
+2. Kliknij przycisk «Select chats» na pasku bocznym — lub naciśnij Ctrl+Shift+K (Cmd+Shift+K na Macu)
+3. Najedź kursorem na czat i naciśnij Spację, albo klikaj rozmowy, aby je zaznaczać
+4. Naciśnij Enter (potwierdź → Enter jeszcze raz) lub kliknij Usuń, aby usunąć zaznaczone
+
+⌨️ SKRÓTY KLAWIATUROWE
+———————————————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — Wejdź / wyjdź z trybu zaznaczania
+• Spacja — Przełącz zaznaczenie czatu pod kursorem
+• Ctrl+A / Cmd+A — Zaznacz wszystkie czaty
+• Ctrl+D / Cmd+D — Wyczyść zaznaczenie
+• Enter → Enter — Usuń zaznaczone (potwierdzenie dwuetapowe)
+• Escape — Wyjdź z trybu zaznaczania
+
+✨ FUNKCJE
+———————
+
+✓ Masowe zaznaczanie i usuwanie dowolnej liczby rozmów
+✓ Zaznacz wszystko jednym skrótem
+✓ Dwuetapowe potwierdzenie usunięcia — bez przypadkowych usunięć
+✓ W pełni obsługiwany z klawiatury
+✓ Działa na chatgpt.com i na chat.openai.com
+✓ Lekki — bez skryptów w tle, bez połączeń z serwerami zewnętrznymi
+✓ Bez konta, bez logowania, bez zbierania danych
+
+🔒 PRYWATNOŚĆ
+——————————
+
+ChatGPT Chat Cleaner nie zbiera, nie przechowuje ani nie przesyła żadnych danych osobowych. Rozszerzenie wysyła jedynie żądania usunięcia bezpośrednio do własnego API ChatGPT w Twoim imieniu — te same żądania, które ChatGPT wykonuje, gdy ręcznie usuwasz czat.
+
+🌍 JĘZYKI
+——————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+Idealny dla programistów, badaczy, zaawansowanych użytkowników AI i wszystkich, którzy chcą utrzymać ChatGPT w czystości i porządku.

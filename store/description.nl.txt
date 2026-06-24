@@ -1,0 +1,44 @@
+🗑️ Verwijder ChatGPT-gesprekken in bulk, in enkele seconden. Selecteer alles of kies specifieke chats — en verwijder ze met één klik.
+
+Genoeg van het één voor één verwijderen van ChatGPT-chats? ChatGPT Chat Cleaner voegt een selectiemodus toe aan de zijbalk van ChatGPT, zodat je meerdere gesprekken kunt markeren en ze allemaal tegelijk kunt verwijderen. Ideaal om je geschiedenis op te ruimen en oude chats te wissen.
+
+HOE HET WERKT
+—————————————
+
+1. Open chatgpt.com
+2. Klik op de knop «Select chats» in de zijbalk — of druk op Ctrl+Shift+K (Cmd+Shift+K op Mac)
+3. Beweeg de cursor over een chat en druk op Spatie, of klik op gesprekken om ze te selecteren
+4. Druk op Enter (bevestig → nogmaals Enter) of klik op Verwijderen om alles te wissen
+
+⌨️ SNELTOETSEN
+———————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — Selectiemodus starten / verlaten
+• Spatie — Selectie van chat onder cursor omschakelen
+• Ctrl+A / Cmd+A — Alle chats selecteren
+• Ctrl+D / Cmd+D — Selectie wissen
+• Enter → Enter — Geselecteerde verwijderen (bevestiging in twee stappen)
+• Escape — Selectiemodus verlaten
+
+✨ FUNCTIES
+————————
+
+✓ Bulkselectie en -verwijdering van elk aantal gesprekken
+✓ Alles selecteren met één sneltoets
+✓ Verwijderbevestiging in twee stappen — geen onbedoelde verwijderingen
+✓ Volledig via toetsenbord te bedienen
+✓ Werkt op chatgpt.com en op chat.openai.com
+✓ Lichtgewicht — geen achtergrondscripts, geen verbindingen met externe servers
+✓ Geen account, geen inloggen, geen dataverzameling
+
+🔒 PRIVACY
+———————
+
+ChatGPT Chat Cleaner verzamelt, slaat geen persoonlijke gegevens op en verzendt deze ook niet. De extensie stuurt alleen verwijderverzoeken rechtstreeks naar de eigen API van ChatGPT namens jou — dezelfde verzoeken die ChatGPT zelf uitvoert wanneer je een chat handmatig verwijdert.
+
+🌍 TALEN
+—————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+Perfect voor ontwikkelaars, onderzoekers, gevorderde AI-gebruikers en iedereen die ChatGPT overzichtelijk en georganiseerd wil houden.

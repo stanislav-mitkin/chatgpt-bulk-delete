@@ -1,0 +1,44 @@
+🗑️ ChatGPT konuşmalarını saniyeler içinde toplu olarak sil. Tümünü seç ya da istediğin sohbetleri seç — tek tıklamayla hepsini sil.
+
+ChatGPT sohbetlerini tek tek silmekten bıktın mı? ChatGPT Chat Cleaner, ChatGPT kenar çubuğuna doğrudan bir seçim modu ekler; böylece birden fazla konuşmayı işaretleyip hepsini bir anda silebilirsin. Geçmişini düzenlemek ve eski sohbetleri temizlemek için mükemmel.
+
+NASIL ÇALIŞIR
+—————————————
+
+1. chatgpt.com adresini aç
+2. Kenar çubuğundaki «Select chats» düğmesine tıkla — ya da Ctrl+Shift+K tuşlarına bas (Mac'te Cmd+Shift+K)
+3. Fareyi bir sohbetin üzerine getir ve Boşluk tuşuna bas ya da seçmek için konuşmalara tıkla
+4. Enter'a bas (onayla → tekrar Enter) ya da Sil düğmesine tıkla
+
+⌨️ KLAVYE KISAYOLLARI
+——————————————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — Seçim moduna gir / çık
+• Boşluk — İmleç altındaki sohbetin seçimini aç/kapat
+• Ctrl+A / Cmd+A — Tüm sohbetleri seç
+• Ctrl+D / Cmd+D — Seçimi temizle
+• Enter → Enter — Seçilenleri sil (iki adımlı onay)
+• Escape — Seçim modundan çık
+
+✨ ÖZELLİKLER
+———————————
+
+✓ İstediğin sayıda konuşmayı toplu seç ve sil
+✓ Tek kısayolla tümünü seç
+✓ İki adımlı silme onayı — yanlışlıkla silme yok
+✓ Tamamen klavyeyle kullanılabilir
+✓ chatgpt.com ve chat.openai.com'da çalışır
+✓ Hafif — arka plan betiği yok, üçüncü taraf sunuculara bağlantı yok
+✓ Hesap gerekmez, giriş gerekmez, veri toplanmaz
+
+🔒 GİZLİLİK
+————————
+
+ChatGPT Chat Cleaner hiçbir kişisel veriyi toplamaz, saklamaz veya iletmez. Eklenti yalnızca senin adına doğrudan ChatGPT'nin kendi API'sine silme istekleri gönderir — bir sohbeti elle sildiğinde ChatGPT'nin yaptığı isteklerin aynısı.
+
+🌍 DİLLER
+——————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+Geliştiriciler, araştırmacılar, yapay zeka meraklıları ve ChatGPT'yi temiz ve düzenli tutmak isteyen herkes için mükemmel.

@@ -1,0 +1,42 @@
+🗑️ Bulk-delete ChatGPT conversations in seconds. Select all or pick chats — then delete with one click.
+
+Tired of deleting ChatGPT chats one by one? ChatGPT Chat Cleaner adds a Select mode to the ChatGPT sidebar so you can pick multiple conversations and delete them all at once.
+
+HOW IT WORKS
+————————————
+
+1. Open chatgpt.com
+2. Click "Select chats" button in the sidebar — or press Ctrl+Shift+K (Cmd+Shift+K on Mac)
+3. Hover over chats and press Space, or just click them to select
+4. Press Enter (confirm → Enter again) or click Delete to remove them all
+
+⌨️ KEYBOARD SHORTCUTS
+——————————————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — Enter / Exit Select mode
+• Space — Toggle hovered chat
+• Ctrl+A / Cmd+A — Select all chats
+• Ctrl+D / Cmd+D — Clear selection
+• Enter → Enter — Delete selected (two-step confirmation)
+• Escape — Exit Select mode
+
+✨ FEATURES
+————————
+
+✓ Bulk-select and delete any number of conversations
+✓ Select All with one shortcut
+✓ Two-step delete confirmation — no accidental deletions
+✓ Fully keyboard-driven workflow
+✓ Works on both chatgpt.com and chat.openai.com
+✓ Lightweight — no background scripts, no calls to third-party servers
+✓ No account, no login, no data collected
+
+🔒 PRIVACY
+———————
+
+ChatGPT Chat Cleaner does not collect, store, or transmit any personal data. It only sends delete requests directly to ChatGPT's own API on your behalf — the same requests ChatGPT itself makes when you delete a chat manually.
+
+🌍 LANGUAGES
+—————————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية

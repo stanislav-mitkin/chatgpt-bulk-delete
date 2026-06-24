@@ -1,0 +1,44 @@
+🗑️ Xóa hàng loạt cuộc trò chuyện ChatGPT trong vài giây. Chọn tất cả hoặc chọn các đoạn chat cụ thể — rồi xóa chúng chỉ với một cú nhấp.
+
+Chán xóa từng cuộc trò chuyện ChatGPT một? ChatGPT Chat Cleaner thêm chế độ chọn trực tiếp vào thanh bên của ChatGPT, giúp bạn đánh dấu nhiều cuộc hội thoại và xóa tất cả cùng một lúc. Hoàn hảo để sắp xếp lịch sử và dọn sạch các đoạn chat cũ.
+
+CÁCH HOẠT ĐỘNG
+——————————————
+
+1. Mở chatgpt.com
+2. Nhấp vào nút «Select chats» trên thanh bên — hoặc nhấn Ctrl+Shift+K (Cmd+Shift+K trên Mac)
+3. Di chuột qua một đoạn chat và nhấn Dấu cách, hoặc nhấp vào các cuộc trò chuyện để chọn
+4. Nhấn Enter (xác nhận → Enter lần nữa) hoặc nhấp Xóa để xóa tất cả đã chọn
+
+⌨️ PHÍM TẮT
+————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — Vào / thoát chế độ chọn
+• Dấu cách — Bật/tắt chọn đoạn chat dưới con trỏ
+• Ctrl+A / Cmd+A — Chọn tất cả đoạn chat
+• Ctrl+D / Cmd+D — Bỏ chọn tất cả
+• Enter → Enter — Xóa các mục đã chọn (xác nhận hai bước)
+• Escape — Thoát chế độ chọn
+
+✨ TÍNH NĂNG
+—————————
+
+✓ Chọn và xóa hàng loạt bất kỳ số lượng cuộc trò chuyện nào
+✓ Chọn tất cả chỉ với một phím tắt
+✓ Xác nhận xóa hai bước — không lo xóa nhầm
+✓ Toàn bộ thao tác bằng bàn phím
+✓ Hoạt động trên chatgpt.com và chat.openai.com
+✓ Nhẹ — không có script nền, không kết nối đến máy chủ bên thứ ba
+✓ Không cần tài khoản, không cần đăng nhập, không thu thập dữ liệu
+
+🔒 QUYỀN RIÊNG TƯ
+——————————————
+
+ChatGPT Chat Cleaner không thu thập, lưu trữ hay truyền bất kỳ dữ liệu cá nhân nào. Tiện ích chỉ gửi yêu cầu xóa trực tiếp đến API của ChatGPT thay mặt bạn — giống hệt các yêu cầu mà ChatGPT thực hiện khi bạn xóa đoạn chat thủ công.
+
+🌍 NGÔN NGỮ
+————————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+Hoàn hảo cho các nhà phát triển, nhà nghiên cứu, người dùng AI nâng cao và bất kỳ ai muốn giữ ChatGPT gọn gàng và có tổ chức.

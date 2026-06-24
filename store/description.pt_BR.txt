@@ -1,0 +1,44 @@
+🗑️ Exclua conversas do ChatGPT em massa, em segundos. Selecione tudo ou escolha os chats — e apague-os com um único clique.
+
+Cansado de excluir chats do ChatGPT um por um? O ChatGPT Chat Cleaner adiciona um modo de seleção diretamente na barra lateral do ChatGPT para você marcar várias conversas e excluí-las todas de uma vez. Ideal para organizar seu histórico e limpar conversas antigas.
+
+COMO FUNCIONA
+—————————————
+
+1. Abra chatgpt.com
+2. Clique no botão «Select chats» na barra lateral — ou pressione Ctrl+Shift+K (Cmd+Shift+K no Mac)
+3. Passe o cursor sobre um chat e pressione Espaço, ou clique nas conversas para selecioná-las
+4. Pressione Enter (confirme → Enter novamente) ou clique em Excluir para remover tudo
+
+⌨️ ATALHOS DE TECLADO
+——————————————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — Entrar / sair do modo de seleção
+• Espaço — Alternar seleção do chat sob o cursor
+• Ctrl+A / Cmd+A — Selecionar todos os chats
+• Ctrl+D / Cmd+D — Limpar seleção
+• Enter → Enter — Excluir selecionados (confirmação em dois passos)
+• Escape — Sair do modo de seleção
+
+✨ RECURSOS
+————————
+
+✓ Seleção e exclusão em massa de qualquer número de conversas
+✓ Selecionar tudo com um único atalho
+✓ Confirmação de exclusão em dois passos — sem exclusões acidentais
+✓ Fluxo de trabalho totalmente pelo teclado
+✓ Funciona em chatgpt.com e em chat.openai.com
+✓ Leve — sem scripts em segundo plano, sem chamadas a servidores de terceiros
+✓ Sem conta, sem login, sem coleta de dados
+
+🔒 PRIVACIDADE
+———————————
+
+O ChatGPT Chat Cleaner não coleta, armazena nem transmite nenhum dado pessoal. A extensão apenas envia solicitações de exclusão diretamente para a própria API do ChatGPT em seu nome — as mesmas solicitações que o ChatGPT realiza quando você exclui um chat manualmente.
+
+🌍 IDIOMAS
+———————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+Perfeito para desenvolvedores, pesquisadores, usuários avançados de IA e qualquer pessoa que queira manter o ChatGPT limpo e organizado.

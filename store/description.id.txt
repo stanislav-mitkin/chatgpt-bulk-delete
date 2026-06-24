@@ -1,0 +1,44 @@
+🗑️ Hapus percakapan ChatGPT secara massal dalam hitungan detik. Pilih semua atau tentukan obrolan tertentu — lalu hapus semuanya hanya dengan satu klik.
+
+Bosan menghapus obrolan ChatGPT satu per satu? ChatGPT Chat Cleaner menambahkan mode pemilihan langsung ke bilah sisi ChatGPT sehingga kamu bisa menandai beberapa percakapan dan menghapusnya sekaligus. Sempurna untuk merapikan riwayat dan membersihkan obrolan lama.
+
+CARA KERJA
+——————————
+
+1. Buka chatgpt.com
+2. Klik tombol «Select chats» di bilah sisi — atau tekan Ctrl+Shift+K (Cmd+Shift+K di Mac)
+3. Arahkan kursor ke obrolan dan tekan Spasi, atau klik percakapan untuk memilihnya
+4. Tekan Enter (konfirmasi → Enter lagi) atau klik Hapus untuk menghapus semua yang dipilih
+
+⌨️ PINTASAN KEYBOARD
+—————————————————
+
+• Ctrl+Shift+K / Cmd+Shift+K — Masuk / keluar dari mode pemilihan
+• Spasi — Beralih pilihan obrolan di bawah kursor
+• Ctrl+A / Cmd+A — Pilih semua obrolan
+• Ctrl+D / Cmd+D — Hapus pilihan
+• Enter → Enter — Hapus yang dipilih (konfirmasi dua langkah)
+• Escape — Keluar dari mode pemilihan
+
+✨ FITUR
+—————
+
+✓ Pilih dan hapus sejumlah percakapan sekaligus
+✓ Pilih semua dengan satu pintasan
+✓ Konfirmasi penghapusan dua langkah — tidak ada penghapusan tidak sengaja
+✓ Alur kerja sepenuhnya menggunakan keyboard
+✓ Berfungsi di chatgpt.com dan chat.openai.com
+✓ Ringan — tanpa skrip latar belakang, tanpa koneksi ke server pihak ketiga
+✓ Tanpa akun, tanpa login, tanpa pengumpulan data
+
+🔒 PRIVASI
+———————
+
+ChatGPT Chat Cleaner tidak mengumpulkan, menyimpan, atau mengirimkan data pribadi apa pun. Ekstensi ini hanya mengirimkan permintaan penghapusan langsung ke API ChatGPT atas namamu — permintaan yang sama yang dilakukan ChatGPT saat kamu menghapus obrolan secara manual.
+
+🌍 BAHASA
+——————
+
+English, Русский, Deutsch, Español, Français, Italiano, Português, Polski, Nederlands, Türkçe, Indonesian, Tiếng Việt, 日本語, 한국어, 中文(简体), 中文(繁體), العربية
+
+Sempurna untuk pengembang, peneliti, pengguna AI tingkat lanjut, dan siapa saja yang ingin menjaga ChatGPT tetap rapi dan terorganisir.
