@@ -26,9 +26,5 @@
 
   "done1":    { "message": "1 chat eliminado" },
   "doneN":    { "message": "$COUNT$ chats eliminados", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "Eliminados $DONE$, fallidos $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "Entrar en modo selección" },
-  "exitMode": { "message": "Salir del modo selección" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "Eliminados $DONE$, fallidos $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

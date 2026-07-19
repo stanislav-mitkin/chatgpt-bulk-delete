@@ -26,9 +26,5 @@
 
   "done1":    { "message": "1件のチャットを削除しました" },
   "doneN":    { "message": "$COUNT$件のチャットを削除しました", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "$DONE$件削除、$FAILED$件失敗", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "選択モードを開始" },
-  "exitMode": { "message": "選択モードを終了" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "$DONE$件削除、$FAILED$件失敗", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

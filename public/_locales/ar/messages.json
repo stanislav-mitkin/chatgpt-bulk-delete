@@ -26,9 +26,5 @@
 
   "done1":    { "message": "تم حذف محادثة واحدة" },
   "doneN":    { "message": "تم حذف $COUNT$ محادثات", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "تم حذف $DONE$، فشل $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "الدخول إلى وضع التحديد" },
-  "exitMode": { "message": "الخروج من وضع التحديد" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "تم حذف $DONE$، فشل $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

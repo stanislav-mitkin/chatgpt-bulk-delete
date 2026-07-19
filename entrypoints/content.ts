@@ -1,38 +1,31 @@
-import { initChatList, onChatListChange, destroyChatList } from '../modules/chat-list';
-import { initKeybindings, destroyKeybindings } from '../modules/keybindings';
-import { injectStyles, removeStyles } from '../modules/styles';
-import { refreshClasses } from '../modules/selection';
-import { initOverlay, destroyOverlay } from '../modules/overlay';
+import { chatgptAdapter } from '../adapter/chatgpt';
+import { initSelection, refreshClasses } from '../core/selection';
+import { initKeybindings, destroyKeybindings } from '../core/keybindings';
+import { injectStyles, removeStyles } from '../core/style-injector';
+import { initOverlay, destroyOverlay, revealTab } from '../core/overlay';
 
 export default defineContentScript({
-  matches: [
-    'https://chatgpt.com/*',
-    'https://chat.openai.com/*',
-  ],
+  matches: ['https://chatgpt.com/*', 'https://chat.openai.com/*'],
   main() {
-    injectStyles();
+    injectStyles(chatgptAdapter.styles);
     initOverlay();
+    initSelection(chatgptAdapter.chatList, chatgptAdapter.sidebarSelector);
 
-    waitForSidebar(() => {
-      initChatList();
-      initKeybindings();
-
-      onChatListChange(() => refreshClasses());
+    chatgptAdapter.waitUntilReady(() => {
+      chatgptAdapter.chatList.init();
+      initKeybindings(chatgptAdapter);
+      chatgptAdapter.chatList.onChatListChange((chats) => {
+        refreshClasses();
+        if (chats.length > 0) revealTab();
+      });
+      if (chatgptAdapter.chatList.getChatList().length > 0) revealTab();
     });
 
     return () => {
       destroyKeybindings();
-      destroyChatList();
+      chatgptAdapter.chatList.destroy();
       destroyOverlay();
       removeStyles();
     };
   },
 });
-
-function waitForSidebar(cb: () => void) {
-  if (document.querySelector('nav, aside')) { cb(); return; }
-  const mo = new MutationObserver(() => {
-    if (document.querySelector('nav, aside')) { mo.disconnect(); cb(); }
-  });
-  mo.observe(document.body, { childList: true, subtree: true });
-}

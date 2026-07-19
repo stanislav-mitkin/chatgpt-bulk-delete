@@ -26,9 +26,5 @@
 
   "done1":    { "message": "已删除 1 个对话" },
   "doneN":    { "message": "已删除 $COUNT$ 个对话", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "已删除 $DONE$，失败 $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "进入选择模式" },
-  "exitMode": { "message": "退出选择模式" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "已删除 $DONE$，失败 $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

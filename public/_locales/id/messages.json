@@ -26,9 +26,5 @@
 
   "done1":    { "message": "1 obrolan dihapus" },
   "doneN":    { "message": "$COUNT$ obrolan dihapus", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "$DONE$ dihapus, $FAILED$ gagal", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "Masuk mode pemilihan" },
-  "exitMode": { "message": "Keluar mode pemilihan" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "$DONE$ dihapus, $FAILED$ gagal", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

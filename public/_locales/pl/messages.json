@@ -26,9 +26,5 @@
 
   "done1":    { "message": "Usunięto 1 czat" },
   "doneN":    { "message": "Usunięto $COUNT$ czatów", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "Usunięto $DONE$, błędy: $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "Wejdź w tryb zaznaczania" },
-  "exitMode": { "message": "Wyjdź z trybu zaznaczania" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "Usunięto $DONE$, błędy: $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

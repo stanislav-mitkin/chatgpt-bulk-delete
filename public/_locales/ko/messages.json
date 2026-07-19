@@ -26,9 +26,5 @@
 
   "done1":    { "message": "1개 삭제됨" },
   "doneN":    { "message": "$COUNT$개 삭제됨", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "$DONE$개 삭제됨, $FAILED$개 실패", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "선택 모드 시작" },
-  "exitMode": { "message": "선택 모드 종료" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "$DONE$개 삭제됨, $FAILED$개 실패", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

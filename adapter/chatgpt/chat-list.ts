@@ -1,8 +1,4 @@
-export interface ChatItem {
-  id: string;
-  element: HTMLAnchorElement;
-  title: string;
-}
+import type { ChatItem } from '../../core/types';
 
 type ChangeCallback = (chats: ChatItem[]) => void;
 
@@ -48,12 +44,19 @@ function parseLinkList(links: NodeListOf<HTMLAnchorElement>): ChatItem[] {
   return result;
 }
 
+function sameList(a: ChatItem[], b: ChatItem[]): boolean {
+  if (a.length !== b.length) return false;
+  return a.every((item, i) => item.id === b[i].id && item.element === b[i].element);
+}
+
 function refresh() {
   const next = buildChatList();
-  const prevIds = chats.map((c) => c.id).join(',');
-  const nextIds = next.map((c) => c.id).join(',');
-  if (prevIds === nextIds) return;
-
+  // ChatGPT's SPA often re-renders sidebar rows (e.g. marking the active
+  // conversation) by replacing the DOM nodes rather than mutating them, even
+  // when the set of chat IDs stays the same. Comparing element references
+  // (not just IDs) prevents `chats` from holding stale, detached elements
+  // that silently fail to receive hover/selected CSS classes.
+  if (sameList(chats, next)) return;
   chats = next;
   listeners.forEach((cb) => cb(chats));
 }

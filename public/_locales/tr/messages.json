@@ -26,9 +26,5 @@
 
   "done1":    { "message": "1 sohbet silindi" },
   "doneN":    { "message": "$COUNT$ sohbet silindi", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "$DONE$ silindi, $FAILED$ başarısız", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "Seçim moduna gir" },
-  "exitMode": { "message": "Seçim modundan çık" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "$DONE$ silindi, $FAILED$ başarısız", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

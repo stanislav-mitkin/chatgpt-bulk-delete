@@ -26,9 +26,5 @@
 
   "done1":    { "message": "Удалён 1 чат" },
   "doneN":    { "message": "Удалено $COUNT$ чатов", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "Удалено $DONE$, ошибок: $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "Войти в режим выбора" },
-  "exitMode": { "message": "Выйти из режима выбора" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "Удалено $DONE$, ошибок: $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

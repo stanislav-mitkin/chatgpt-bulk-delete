@@ -26,9 +26,5 @@
 
   "done1":    { "message": "Đã xóa 1 cuộc trò chuyện" },
   "doneN":    { "message": "Đã xóa $COUNT$ cuộc trò chuyện", "placeholders": { "count": { "content": "$1" } } },
-  "doneFail": { "message": "Đã xóa $DONE$, thất bại $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } },
-
-  "enter":    { "message": "Vào chế độ chọn" },
-  "exitMode": { "message": "Thoát chế độ chọn" },
-  "branding": { "message": "ChatGPT Chat Cleaner" }
+  "doneFail": { "message": "Đã xóa $DONE$, thất bại $FAILED$", "placeholders": { "done": { "content": "$1" }, "failed": { "content": "$2" } } }
 }

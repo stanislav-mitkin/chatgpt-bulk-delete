@@ -1,9 +1,13 @@
-import { getChatList, type ChatItem } from './chat-list';
+import type { ChatItem, ChatListSource } from './types';
 
 export type SelectionMode = 'idle' | 'active';
 
 const CSS_HOVER    = 'cbd-hover';
 const CSS_SELECTED = 'cbd-selected';
+const CSS_SIDEBAR_ACTIVE = 'cbd-sidebar-active';
+
+let chatList: ChatListSource;
+let sidebarSelector: string | undefined;
 
 let mode: SelectionMode = 'idle';
 let selectedIds = new Set<string>();
@@ -15,7 +19,14 @@ type SelectionChangeCallback = (selectedIds: Set<string>) => void;
 const modeListeners: ModeChangeCallback[] = [];
 const selectionListeners: SelectionChangeCallback[] = [];
 
-// ── public state ──────────────────────────────────────────────────────────────
+// Must be called once, before entering selection mode, with the adapter's
+// chat list source and (optionally) its sidebar container selector.
+export function initSelection(source: ChatListSource, sidebarSel?: string) {
+  chatList = source;
+  sidebarSelector = sidebarSel;
+}
+
+function getChatList(): ChatItem[] { return chatList.getChatList(); }
 
 export function getMode(): SelectionMode { return mode; }
 export function getSelectedIds(): Set<string> { return selectedIds; }
@@ -28,15 +39,13 @@ export function getSelectedItems(): ChatItem[] {
 export function onModeChange(cb: ModeChangeCallback) { modeListeners.push(cb); }
 export function onSelectionChange(cb: SelectionChangeCallback) { selectionListeners.push(cb); }
 
-// ── mode ──────────────────────────────────────────────────────────────────────
-
 export function enterMode() {
   if (mode === 'active') return;
   mode = 'active';
   selectedIds = new Set();
   hoveredId = null;
-  // Blur any focused input so Space / Cmd+A work immediately
   (document.activeElement as HTMLElement)?.blur?.();
+  if (sidebarSelector) document.querySelector(sidebarSelector)?.classList.add(CSS_SIDEBAR_ACTIVE);
   modeListeners.forEach((cb) => cb(mode));
   notifySelection();
 }
@@ -47,16 +56,13 @@ export function exitMode() {
   selectedIds = new Set();
   hoveredId = null;
   clearAllClasses();
+  if (sidebarSelector) document.querySelector(sidebarSelector)?.classList.remove(CSS_SIDEBAR_ACTIVE);
   modeListeners.forEach((cb) => cb(mode));
   notifySelection();
 }
 
-// ── hover ─────────────────────────────────────────────────────────────────────
-
 export function setHovered(id: string | null) {
   if (hoveredId === id) return;
-
-  // Remove hover class from previous
   if (hoveredId) {
     getChatList().find((c) => c.id === hoveredId)?.element.classList.remove(CSS_HOVER);
   }
@@ -66,15 +72,25 @@ export function setHovered(id: string | null) {
   }
 }
 
-// ── selection ─────────────────────────────────────────────────────────────────
-
 export function toggleById(id: string) {
   if (selectedIds.has(id)) selectedIds.delete(id);
   else selectedIds.add(id);
-
   const item = getChatList().find((c) => c.id === id);
   if (item) item.element.classList.toggle(CSS_SELECTED, selectedIds.has(id));
+  notifySelection();
+}
 
+export function selectById(id: string) {
+  if (selectedIds.has(id)) return;
+  selectedIds.add(id);
+  getChatList().find((c) => c.id === id)?.element.classList.add(CSS_SELECTED);
+  notifySelection();
+}
+
+export function deselectById(id: string) {
+  if (!selectedIds.has(id)) return;
+  selectedIds.delete(id);
+  getChatList().find((c) => c.id === id)?.element.classList.remove(CSS_SELECTED);
   notifySelection();
 }
 
@@ -95,8 +111,6 @@ export function clearAll() {
   selectedIds = new Set();
   notifySelection();
 }
-
-// ── DOM ───────────────────────────────────────────────────────────────────────
 
 function clearAllClasses() {
   getChatList().forEach((item) => {
