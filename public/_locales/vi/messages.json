@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "để chọn hàng loạt" },
   "btn_select": { "message": "Chọn cuộc trò chuyện" },
-  "mode_title": { "message": "Chế độ chọn" },
+  "mode_title": { "message": "Nhấp vào cuộc trò chuyện để xoá" },
 
   "key_chat":   { "message": "chọn cuộc trò chuyện" },
+  "key_brush":  { "message": "chọn bằng cách kéo" },
   "key_all":    { "message": "chọn tất cả" },
   "key_clear":  { "message": "bỏ chọn" },
   "key_delete": { "message": "xóa" },

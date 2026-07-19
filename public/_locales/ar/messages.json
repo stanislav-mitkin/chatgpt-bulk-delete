@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "للتحديد الجماعي" },
   "btn_select": { "message": "تحديد المحادثات" },
-  "mode_title": { "message": "وضع التحديد" },
+  "mode_title": { "message": "انقر على الدردشات لحذفها" },
 
   "key_chat":   { "message": "تحديد محادثة" },
+  "key_brush":  { "message": "تحديد بالسحب" },
   "key_all":    { "message": "تحديد الكل" },
   "key_clear":  { "message": "مسح" },
   "key_delete": { "message": "حذف" },

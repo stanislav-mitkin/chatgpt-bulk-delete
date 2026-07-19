@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "voor bulkselectie" },
   "btn_select": { "message": "Chats selecteren" },
-  "mode_title": { "message": "Selectiemodus" },
+  "mode_title": { "message": "Klik op chats om te verwijderen" },
 
   "key_chat":   { "message": "chat selecteren" },
+  "key_brush":  { "message": "selecteren door te slepen" },
   "key_all":    { "message": "alles selecteren" },
   "key_clear":  { "message": "wissen" },
   "key_delete": { "message": "verwijderen" },

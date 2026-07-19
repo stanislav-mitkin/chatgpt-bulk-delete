@@ -22,11 +22,12 @@ a.cbd-hover.cbd-selected {
   outline-color: #10a37f !important;
 }
 
-nav[aria-label="Chat history"].cbd-sidebar-active {
-  /* Horizontal-only shadow (no vertical offset/blur) so it isn't clipped by
-     the list's vertical overflow — an outline/box-shadow with any vertical
-     extent gets cut off top/bottom by the scroll container. */
-  box-shadow: -3px 0 0 0 rgba(16, 163, 127, 0.6) !important;
+#history.cbd-sidebar-active {
+  /* Inset (not outward) shadow: draws inside the element's own box, so it
+     can't get clipped off-canvas by the sidebar sitting flush against the
+     window's left edge, and can't be clipped by an ancestor's overflow
+     either. #history wraps just the chat list, not the whole sidebar. */
+  box-shadow: inset 3px 0 0 0 rgba(16, 163, 127, 0.6) !important;
   transition: box-shadow 0.15s ease-out !important;
 }
 `;

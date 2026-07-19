@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "do zbiorowego zaznaczania" },
   "btn_select": { "message": "Zaznacz czaty" },
-  "mode_title": { "message": "Tryb zaznaczania" },
+  "mode_title": { "message": "Kliknij czaty, aby usunąć" },
 
   "key_chat":   { "message": "zaznacz czat" },
+  "key_brush":  { "message": "zaznaczanie przeciągnięciem" },
   "key_all":    { "message": "zaznacz wszystko" },
   "key_clear":  { "message": "wyczyść" },
   "key_delete": { "message": "usuń" },

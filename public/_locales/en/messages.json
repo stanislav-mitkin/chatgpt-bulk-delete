@@ -4,9 +4,10 @@
 
   "idle_hint":   { "message": "to bulk select" },
   "btn_select":  { "message": "Select chats" },
-  "mode_title":  { "message": "Selection mode" },
+  "mode_title":  { "message": "Click chats to delete" },
 
   "key_chat":   { "message": "select chat" },
+  "key_brush":  { "message": "brush select" },
   "key_all":    { "message": "select all" },
   "key_clear":  { "message": "clear" },
   "key_delete": { "message": "delete" },

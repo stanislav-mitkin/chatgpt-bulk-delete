@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "para seleção em massa" },
   "btn_select": { "message": "Selecionar conversas" },
-  "mode_title": { "message": "Modo de seleção" },
+  "mode_title": { "message": "Clique nas conversas para eliminar" },
 
   "key_chat":   { "message": "selecionar conversa" },
+  "key_brush":  { "message": "seleção por arrasto" },
   "key_all":    { "message": "selecionar tudo" },
   "key_clear":  { "message": "limpar" },
   "key_delete": { "message": "eliminar" },

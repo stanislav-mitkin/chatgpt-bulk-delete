@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "일괄 선택하려면" },
   "btn_select": { "message": "대화 선택" },
-  "mode_title": { "message": "선택 모드" },
+  "mode_title": { "message": "삭제할 채팅을 클릭하세요" },
 
   "key_chat":   { "message": "대화 선택" },
+  "key_brush":  { "message": "드래그로 선택" },
   "key_all":    { "message": "전체 선택" },
   "key_clear":  { "message": "선택 해제" },
   "key_delete": { "message": "삭제" },

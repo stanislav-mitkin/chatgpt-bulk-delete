@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "批量選取" },
   "btn_select": { "message": "選取對話" },
-  "mode_title": { "message": "選取模式" },
+  "mode_title": { "message": "點擊要刪除的對話" },
 
   "key_chat":   { "message": "選取對話" },
+  "key_brush":  { "message": "拖曳批量選取" },
   "key_all":    { "message": "全選" },
   "key_clear":  { "message": "清除" },
   "key_delete": { "message": "刪除" },

@@ -4,7 +4,10 @@ import { deleteConversations } from './deleter';
 import { CHATGPT_STYLES } from './styles';
 
 const CHAT_ROW_SELECTOR = 'nav[aria-label="Chat history"] a[data-sidebar-item="true"][href*="/c/"], nav a[href*="/c/"], aside a[href*="/c/"]';
-const SIDEBAR_SELECTOR = 'nav[aria-label="Chat history"]';
+// #history wraps just the chat list <ul> — not the whole sidebar (which also
+// contains the New chat button, search, projects, etc.) — so the "selection
+// mode active" highlight only outlines what's actually selectable/deletable.
+const SIDEBAR_SELECTOR = '#history';
 
 // Calls `cb` once the sidebar (nav/aside) has appeared and is safe to observe.
 function waitUntilReady(cb: () => void) {

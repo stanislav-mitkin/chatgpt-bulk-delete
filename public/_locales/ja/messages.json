@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "一括選択するには" },
   "btn_select": { "message": "チャットを選択" },
-  "mode_title": { "message": "選択モード" },
+  "mode_title": { "message": "削除するチャットをクリック" },
 
   "key_chat":   { "message": "チャットを選択" },
+  "key_brush":  { "message": "なぞって複数選択" },
   "key_all":    { "message": "すべて選択" },
   "key_clear":  { "message": "クリア" },
   "key_delete": { "message": "削除" },

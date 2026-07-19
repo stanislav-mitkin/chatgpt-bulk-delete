@@ -5,18 +5,23 @@ import {
   setHovered, getSelectedIds, getSelectedItems,
 } from './selection';
 import {
-  showConfirm, showProgress, showDeletedInStrip, clearStatus,
+  showConfirm, showProgress, showDeleteResult, clearStatus,
   onSelectButtonClick, onDeleteButtonClick, onClearButtonClick, onExitButtonClick,
 } from './overlay';
 import { isMac } from './platform';
 import type { ChatAdapter } from './types';
 
 const CONFIRM_TIMEOUT_MS = 2000;
+// How long the result dot stays lit after a delete finishes — the panel is
+// kept open for this same window so the user actually sees the outcome,
+// instead of the panel collapsing the instant delete starts.
+const NOTIFICATION_MS = 3000;
 
 let adapter: ChatAdapter;
 
 let pendingDelete = false;
 let confirmTimer: ReturnType<typeof setTimeout> | null = null;
+let autoExitTimer: ReturnType<typeof setTimeout> | null = null;
 
 // null = brush not active; true = brushing selects; false = brushing deselects
 let brushAction: boolean | null = null;
@@ -29,6 +34,10 @@ function cancelPending() {
   clearStatus();
 }
 
+function cancelAutoExit() {
+  if (autoExitTimer) { clearTimeout(autoExitTimer); autoExitTimer = null; }
+}
+
 async function executeDelete() {
   const ids = [...getSelectedIds()];
   if (!ids.length) return;
@@ -38,7 +47,9 @@ async function executeDelete() {
     adapter.getRow(item.element).style.display = 'none';
   });
 
-  exitMode();
+  // Reset the selection UI but stay in 'active' mode — the panel must remain
+  // visible through the delete + result notification, not collapse instantly.
+  clearAll();
 
   const result = await adapter.deleter.deleteConversations(ids, (done, total) => showProgress(done, total));
 
@@ -47,7 +58,13 @@ async function executeDelete() {
     if (item) adapter.getRow(item.element).style.display = '';
   });
 
-  showDeletedInStrip(result.succeeded.length, result.failed.length);
+  showDeleteResult(result.succeeded.length, result.failed.length);
+
+  cancelAutoExit();
+  autoExitTimer = setTimeout(() => {
+    autoExitTimer = null;
+    exitMode();
+  }, NOTIFICATION_MS);
 }
 
 async function confirmAndDelete() {
@@ -69,7 +86,7 @@ async function confirmAndDelete() {
 function onKeyDown(e: KeyboardEvent) {
   if (isModifier(e) && e.shiftKey && e.code === 'KeyX') {
     e.preventDefault();
-    if (getMode() === 'idle') { enterMode(); } else { cancelPending(); exitMode(); }
+    if (getMode() === 'idle') { cancelAutoExit(); enterMode(); } else { cancelAutoExit(); cancelPending(); exitMode(); }
     return;
   }
 
@@ -79,6 +96,7 @@ function onKeyDown(e: KeyboardEvent) {
   if (e.key === 'Escape') {
     e.preventDefault();
     brushAction = null;
+    cancelAutoExit();
     cancelPending();
     exitMode();
     return;
@@ -179,10 +197,10 @@ function onClick(e: MouseEvent) {
 
 export function initKeybindings(chatAdapter: ChatAdapter) {
   adapter = chatAdapter;
-  onSelectButtonClick(() => enterMode());
+  onSelectButtonClick(() => { cancelAutoExit(); enterMode(); });
   onDeleteButtonClick(() => confirmAndDelete());
   onClearButtonClick(() => clearAll());
-  onExitButtonClick(() => { cancelPending(); exitMode(); });
+  onExitButtonClick(() => { cancelAutoExit(); cancelPending(); exitMode(); });
   document.addEventListener('keydown', onKeyDown, { capture: true });
   document.addEventListener('keyup', onKeyUp, { capture: true });
   document.addEventListener('mousedown', onMouseDown, { capture: true });
@@ -192,6 +210,7 @@ export function initKeybindings(chatAdapter: ChatAdapter) {
 }
 
 export function destroyKeybindings() {
+  cancelAutoExit();
   cancelPending();
   brushAction = null;
   document.removeEventListener('keydown', onKeyDown, { capture: true });

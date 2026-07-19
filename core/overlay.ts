@@ -397,11 +397,12 @@ export function initOverlay() {
   const mod = mac ? '⌘' : 'Ctrl+';
 
   const hints: [string, string][] = [
-    ['click',   t('key_chat')],
-    [`${mod}A`, t('key_all')],
-    [`${mod}D`, t('key_clear')],
-    ['↩ × 2',  t('key_delete')],
-    ['Esc',     t('key_exit')],
+    ['click',       t('key_chat')],
+    ['Shift+hover', t('key_brush')],
+    [`${mod}A`,     t('key_all')],
+    [`${mod}D`,     t('key_clear')],
+    ['↩ × 2',      t('key_delete')],
+    ['Esc',         t('key_exit')],
   ];
 
   host = document.createElement('div');
@@ -564,14 +565,23 @@ export function showProgress(done: number, total: number) {
   progressFillEl.style.width = `${Math.round((done / total) * 100)}%`;
 }
 
-export function showDeletedInStrip(succeeded: number, failed: number) {
+export function showDeleteResult(succeeded: number, failed: number) {
   if (resultDotTimer) { clearTimeout(resultDotTimer); resultDotTimer = null; }
-  if (!resultDotEl) return;
-  resultDotEl.className = `result-dot ${failed === 0 ? 'success' : 'error'}`;
-  resultDotTimer = setTimeout(() => {
-    resultDotTimer = null;
-    if (resultDotEl) resultDotEl.className = 'result-dot';
-  }, 3000);
+  if (resultDotEl) {
+    resultDotEl.className = `result-dot ${failed === 0 ? 'success' : 'error'}`;
+    resultDotTimer = setTimeout(() => {
+      resultDotTimer = null;
+      if (resultDotEl) resultDotEl.className = 'result-dot';
+    }, 3000);
+  }
+
+  // Progress bar's job is done — replace it with the actual outcome text,
+  // shown in the panel for the same window the tab's result dot stays lit.
+  progressBarEl?.classList.remove('visible');
+  const msg = failed === 0
+    ? (succeeded === 1 ? t('done1') : t('doneN', [String(succeeded)]))
+    : t('doneFail', [String(succeeded), String(failed)]);
+  setStatus(msg, failed === 0 ? 'success' : 'error');
 }
 
 export function clearStatus() {

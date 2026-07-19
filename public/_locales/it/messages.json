@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "per selezione multipla" },
   "btn_select": { "message": "Seleziona chat" },
-  "mode_title": { "message": "Modalità selezione" },
+  "mode_title": { "message": "Clicca sulle chat da eliminare" },
 
   "key_chat":   { "message": "seleziona chat" },
+  "key_brush":  { "message": "selezione a trascinamento" },
   "key_all":    { "message": "seleziona tutto" },
   "key_clear":  { "message": "cancella" },
   "key_delete": { "message": "elimina" },

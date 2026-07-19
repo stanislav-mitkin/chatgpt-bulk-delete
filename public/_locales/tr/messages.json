@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "toplu seçim için" },
   "btn_select": { "message": "Sohbet seç" },
-  "mode_title": { "message": "Seçim modu" },
+  "mode_title": { "message": "Silmek için sohbetlere tıklayın" },
 
   "key_chat":   { "message": "sohbet seç" },
+  "key_brush":  { "message": "sürükleyerek seç" },
   "key_all":    { "message": "tümünü seç" },
   "key_clear":  { "message": "temizle" },
   "key_delete": { "message": "sil" },

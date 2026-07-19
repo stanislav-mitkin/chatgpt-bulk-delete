@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "untuk pilih massal" },
   "btn_select": { "message": "Pilih obrolan" },
-  "mode_title": { "message": "Mode pemilihan" },
+  "mode_title": { "message": "Klik chat untuk menghapus" },
 
   "key_chat":   { "message": "pilih obrolan" },
+  "key_brush":  { "message": "pilih dengan menyapu" },
   "key_all":    { "message": "pilih semua" },
   "key_clear":  { "message": "hapus pilihan" },
   "key_delete": { "message": "hapus" },

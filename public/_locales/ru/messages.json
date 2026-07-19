@@ -4,9 +4,10 @@
 
   "idle_hint":  { "message": "для массового выбора" },
   "btn_select": { "message": "Выбрать чаты" },
-  "mode_title": { "message": "Режим выбора" },
+  "mode_title": { "message": "Кликните чаты для удаления" },
 
   "key_chat":   { "message": "выбрать чат" },
+  "key_brush":  { "message": "выбор мазком" },
   "key_all":    { "message": "выбрать все" },
   "key_clear":  { "message": "сбросить" },
   "key_delete": { "message": "удалить" },
