@@ -6,15 +6,16 @@ CARA KERJA
 ——————————
 
 1. Buka chatgpt.com
-2. Klik tombol «Select chats» di bilah sisi — atau tekan Ctrl+Shift+K (Cmd+Shift+K di Mac)
-3. Arahkan kursor ke obrolan dan tekan Spasi, atau klik percakapan untuk memilihnya
+2. Klik tab kecil di tepi kanan layar — atau tekan Ctrl+Shift+X (Cmd+Shift+X di Mac) — untuk masuk ke mode pemilihan
+3. Klik obrolan untuk memilihnya, atau tahan Shift sambil mengarahkan kursor untuk memilih beberapa sekaligus
 4. Tekan Enter (konfirmasi → Enter lagi) atau klik Hapus untuk menghapus semua yang dipilih
 
 ⌨️ PINTASAN KEYBOARD
 —————————————————
 
-• Ctrl+Shift+K / Cmd+Shift+K — Masuk / keluar dari mode pemilihan
-• Spasi — Beralih pilihan obrolan di bawah kursor
+• Ctrl+Shift+X / Cmd+Shift+X — Masuk / keluar dari mode pemilihan
+• Klik — Beralih pilihan obrolan
+• Shift + arahkan kursor — Pilih beberapa obrolan sekaligus
 • Ctrl+A / Cmd+A — Pilih semua obrolan
 • Ctrl+D / Cmd+D — Hapus pilihan
 • Enter → Enter — Hapus yang dipilih (konfirmasi dua langkah)
@@ -24,8 +25,10 @@ CARA KERJA
 —————
 
 ✓ Pilih dan hapus sejumlah percakapan sekaligus
+✓ Pilih beberapa obrolan sekaligus dengan Shift + arahkan kursor
 ✓ Pilih semua dengan satu pintasan
 ✓ Konfirmasi penghapusan dua langkah — tidak ada penghapusan tidak sengaja
+✓ Pesan hasil "N obrolan dihapus" yang jelas setelah selesai
 ✓ Alur kerja sepenuhnya menggunakan keyboard
 ✓ Berfungsi di chatgpt.com dan chat.openai.com
 ✓ Ringan — tanpa skrip latar belakang, tanpa koneksi ke server pihak ketiga

@@ -1,16 +1,14 @@
 # ChatGPT Chat Cleaner
 
-Minimal Chrome extension for bulk-deleting ChatGPT conversations via keyboard. No popups, no buttons — just hotkeys.
+Minimal Chrome extension for bulk-deleting ChatGPT conversations. A small tab on the right edge of the screen — or a keyboard shortcut — puts the sidebar into selection mode.
 
 ## Hotkeys
 
 | Key | Action |
 |-----|--------|
 | `Cmd/Ctrl + Shift + X` | Enter / exit selection mode |
-| `J` / `↓` | Move cursor down |
-| `K` / `↑` | Move cursor up |
-| `Space` | Toggle selection on current chat |
-| `Shift + J/K` | Extend selection (range) |
+| Click | Toggle selection on a chat |
+| `Shift + hover` | Brush-select multiple chats at once |
 | `Cmd/Ctrl + A` | Select all visible chats |
 | `Cmd/Ctrl + D` | Clear selection |
 | `Enter` × 2 | Delete selected (press once → confirm, press again within 2s → delete) |
@@ -27,30 +25,17 @@ Then open `chrome://extensions`, enable **Developer mode**, click **Load unpacke
 
 ## How it works
 
-- Detects chat links (`a[href^="/c/"]`) in the sidebar via MutationObserver
+- Detects chat links inside `#history` (the chat list in the sidebar) via MutationObserver
 - Deletion: `PATCH /backend-api/conversation/{id}` with `{is_visible: false}` — same as the official UI
 - Token fetched from `/api/auth/session` (uses existing session cookies, no extra login)
 - Optimistic UI: rows disappear immediately, restored on API failure
+- Selection mode highlights only `#history` (the chat list), not the whole sidebar
 - All styles isolated via Shadow DOM (overlay) and unique CSS class prefix `cbd-`
+
+## Architecture
+
+The code is split into a site-agnostic `core/` engine (overlay, selection state machine, keybindings — shared in spirit with a sibling Gemini extension) and a ChatGPT-specific `adapter/chatgpt/` (delete API, chat-list DOM detection, colors). See [`CLAUDE.md`](CLAUDE.md) for the full breakdown.
 
 ## Selector maintenance
 
-If ChatGPT changes its DOM structure, update `buildChatList()` in [`modules/chat-list.ts`](modules/chat-list.ts).
-
-## Testing
-
-Tests use real Chrome with the extension loaded against live chatgpt.com.
-
-**First time setup** (saves your session once):
-```bash
-pnpm auth     # opens Chrome → log in → close window
-```
-
-**Run tests:**
-```bash
-pnpm test
-```
-
-> ⚠️ **Run sparingly.** Each test run opens real ChatGPT pages.
-> Frequent automated requests may trigger bot detection or CAPTCHA.
-> Run only when verifying selectors after a ChatGPT UI update.
+If ChatGPT changes its DOM structure, update `buildChatList()` in [`adapter/chatgpt/chat-list.ts`](adapter/chatgpt/chat-list.ts).

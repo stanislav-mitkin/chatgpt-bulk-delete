@@ -6,15 +6,16 @@ HOW IT WORKS
 ————————————
 
 1. Open chatgpt.com
-2. Click "Select chats" button in the sidebar — or press Ctrl+Shift+K (Cmd+Shift+K on Mac)
-3. Hover over chats and press Space, or just click them to select
+2. Click the small tab on the right edge of the screen — or press Ctrl+Shift+X (Cmd+Shift+X on Mac) — to enter Select mode
+3. Click chats to select them, or hold Shift and hover to brush-select several at once
 4. Press Enter (confirm → Enter again) or click Delete to remove them all
 
 ⌨️ KEYBOARD SHORTCUTS
 ——————————————————
 
-• Ctrl+Shift+K / Cmd+Shift+K — Enter / Exit Select mode
-• Space — Toggle hovered chat
+• Ctrl+Shift+X / Cmd+Shift+X — Enter / Exit Select mode
+• Click — Toggle a chat
+• Shift + hover — Brush-select multiple chats
 • Ctrl+A / Cmd+A — Select all chats
 • Ctrl+D / Cmd+D — Clear selection
 • Enter → Enter — Delete selected (two-step confirmation)
@@ -24,8 +25,10 @@ HOW IT WORKS
 ————————
 
 ✓ Bulk-select and delete any number of conversations
+✓ Shift+hover brush-select for fast multi-picking
 ✓ Select All with one shortcut
 ✓ Two-step delete confirmation — no accidental deletions
+✓ Clear "Deleted N chats" result message when done
 ✓ Fully keyboard-driven workflow
 ✓ Works on both chatgpt.com and chat.openai.com
 ✓ Lightweight — no background scripts, no calls to third-party servers

@@ -6,15 +6,16 @@ CÁCH HOẠT ĐỘNG
 ——————————————
 
 1. Mở chatgpt.com
-2. Nhấp vào nút «Select chats» trên thanh bên — hoặc nhấn Ctrl+Shift+K (Cmd+Shift+K trên Mac)
-3. Di chuột qua một đoạn chat và nhấn Dấu cách, hoặc nhấp vào các cuộc trò chuyện để chọn
+2. Nhấp vào tab nhỏ ở cạnh phải màn hình — hoặc nhấn Ctrl+Shift+X (Cmd+Shift+X trên Mac) — để vào chế độ chọn
+3. Nhấp vào các đoạn chat để chọn, hoặc giữ Shift và di chuột để chọn nhiều đoạn cùng lúc
 4. Nhấn Enter (xác nhận → Enter lần nữa) hoặc nhấp Xóa để xóa tất cả đã chọn
 
 ⌨️ PHÍM TẮT
 ————————
 
-• Ctrl+Shift+K / Cmd+Shift+K — Vào / thoát chế độ chọn
-• Dấu cách — Bật/tắt chọn đoạn chat dưới con trỏ
+• Ctrl+Shift+X / Cmd+Shift+X — Vào / thoát chế độ chọn
+• Nhấp chuột — Bật/tắt chọn một đoạn chat
+• Shift + di chuột — Chọn nhiều đoạn chat cùng lúc
 • Ctrl+A / Cmd+A — Chọn tất cả đoạn chat
 • Ctrl+D / Cmd+D — Bỏ chọn tất cả
 • Enter → Enter — Xóa các mục đã chọn (xác nhận hai bước)
@@ -24,8 +25,10 @@ CÁCH HOẠT ĐỘNG
 —————————
 
 ✓ Chọn và xóa hàng loạt bất kỳ số lượng cuộc trò chuyện nào
+✓ Chọn nhiều đoạn chat cùng lúc bằng Shift + di chuột
 ✓ Chọn tất cả chỉ với một phím tắt
 ✓ Xác nhận xóa hai bước — không lo xóa nhầm
+✓ Thông báo kết quả rõ ràng "Đã xóa N cuộc trò chuyện" khi hoàn tất
 ✓ Toàn bộ thao tác bằng bàn phím
 ✓ Hoạt động trên chatgpt.com và chat.openai.com
 ✓ Nhẹ — không có script nền, không kết nối đến máy chủ bên thứ ba

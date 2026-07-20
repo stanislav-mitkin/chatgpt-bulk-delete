@@ -6,15 +6,16 @@ COME FUNZIONA
 —————————————
 
 1. Apri chatgpt.com
-2. Clicca sul pulsante «Select chats» nella barra laterale — oppure premi Ctrl+Maiusc+K (Cmd+Maiusc+K su Mac)
-3. Passa il cursore su una chat e premi Spazio, oppure clicca sulle conversazioni per selezionarle
+2. Clicca sulla piccola linguetta sul bordo destro dello schermo — oppure premi Ctrl+Maiusc+X (Cmd+Maiusc+X su Mac) — per entrare in modalità di selezione
+3. Clicca sulle chat per selezionarle, oppure tieni premuto Maiusc e passa il cursore per selezionarne più di una alla volta
 4. Premi Invio (conferma → Invio di nuovo) oppure clicca su Elimina per rimuoverle tutte
 
 ⌨️ SCORCIATOIE DA TASTIERA
 ————————————————————————
 
-• Ctrl+Maiusc+K / Cmd+Maiusc+K — Attivare / uscire dalla modalità di selezione
-• Spazio — Attivare/disattivare la selezione della chat sotto il cursore
+• Ctrl+Maiusc+X / Cmd+Maiusc+X — Attivare / uscire dalla modalità di selezione
+• Clic — Attivare/disattivare una chat
+• Maiusc + passaggio del cursore — Selezionare più chat alla volta
 • Ctrl+A / Cmd+A — Selezionare tutte le chat
 • Ctrl+D / Cmd+D — Deselezionare tutto
 • Invio → Invio — Eliminare i selezionati (conferma in due passaggi)
@@ -24,8 +25,10 @@ COME FUNZIONA
 ————————————
 
 ✓ Selezione ed eliminazione in blocco di un numero illimitato di conversazioni
+✓ Selezione multipla con Maiusc + passaggio del cursore per scegliere più chat velocemente
 ✓ Seleziona tutto con una sola scorciatoia
 ✓ Conferma di eliminazione in due passaggi — nessuna eliminazione accidentale
+✓ Messaggio chiaro "N chat eliminate" al termine
 ✓ Flusso di lavoro completamente da tastiera
 ✓ Funziona su chatgpt.com e su chat.openai.com
 ✓ Leggero — nessuno script in background, nessuna chiamata a server di terze parti

@@ -6,15 +6,16 @@ HOE HET WERKT
 —————————————
 
 1. Open chatgpt.com
-2. Klik op de knop «Select chats» in de zijbalk — of druk op Ctrl+Shift+K (Cmd+Shift+K op Mac)
-3. Beweeg de cursor over een chat en druk op Spatie, of klik op gesprekken om ze te selecteren
+2. Klik op het kleine tabblad aan de rechterrand van het scherm — of druk op Ctrl+Shift+X (Cmd+Shift+X op Mac) — om de selectiemodus te starten
+3. Klik op chats om ze te selecteren, of houd Shift ingedrukt en beweeg de cursor om er meerdere tegelijk te selecteren
 4. Druk op Enter (bevestig → nogmaals Enter) of klik op Verwijderen om alles te wissen
 
 ⌨️ SNELTOETSEN
 ———————————
 
-• Ctrl+Shift+K / Cmd+Shift+K — Selectiemodus starten / verlaten
-• Spatie — Selectie van chat onder cursor omschakelen
+• Ctrl+Shift+X / Cmd+Shift+X — Selectiemodus starten / verlaten
+• Klik — Chat selecteren
+• Shift + cursor bewegen — Meerdere chats tegelijk selecteren
 • Ctrl+A / Cmd+A — Alle chats selecteren
 • Ctrl+D / Cmd+D — Selectie wissen
 • Enter → Enter — Geselecteerde verwijderen (bevestiging in twee stappen)
@@ -24,8 +25,10 @@ HOE HET WERKT
 ————————
 
 ✓ Bulkselectie en -verwijdering van elk aantal gesprekken
+✓ Shift + cursor bewegen om snel meerdere chats te selecteren
 ✓ Alles selecteren met één sneltoets
 ✓ Verwijderbevestiging in twee stappen — geen onbedoelde verwijderingen
+✓ Duidelijk resultaatbericht "N chats verwijderd" na afloop
 ✓ Volledig via toetsenbord te bedienen
 ✓ Werkt op chatgpt.com en op chat.openai.com
 ✓ Lichtgewicht — geen achtergrondscripts, geen verbindingen met externe servers

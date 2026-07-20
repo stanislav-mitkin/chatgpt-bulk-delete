@@ -6,15 +6,16 @@ SO FUNKTIONIERT ES
 ——————————————————
 
 1. Öffne chatgpt.com
-2. Klicke in der Seitenleiste auf „Select chats" – oder drücke Strg+Umschalt+K (Cmd+Umschalt+K auf dem Mac)
-3. Fahre mit der Maus über einen Chat und drücke die Leertaste, oder klicke Unterhaltungen an, um sie auszuwählen
+2. Klicke auf die kleine Lasche am rechten Bildschirmrand – oder drücke Strg+Umschalt+X (Cmd+Umschalt+X auf dem Mac) –, um den Auswahlmodus zu starten
+3. Klicke Chats an, um sie auszuwählen, oder halte Umschalt gedrückt und fahre mit der Maus darüber, um mehrere auf einmal zu markieren
 4. Drücke Enter (Bestätigung → erneut Enter) oder klicke auf Löschen, um alle auf einmal zu entfernen
 
 ⌨️ TASTENKÜRZEL
 ————————————
 
-• Strg+Umschalt+K / Cmd+Umschalt+K — Auswahlmodus starten / beenden
-• Leertaste — Chat unter dem Mauszeiger umschalten
+• Strg+Umschalt+X / Cmd+Umschalt+X — Auswahlmodus starten / beenden
+• Klick — Chat umschalten
+• Umschalt + Maus darüber — Mehrere Chats markieren
 • Strg+A / Cmd+A — Alle Chats auswählen
 • Strg+D / Cmd+D — Auswahl aufheben
 • Enter → Enter — Ausgewählte löschen (zweistufige Bestätigung)
@@ -24,8 +25,10 @@ SO FUNKTIONIERT ES
 ——————————
 
 ✓ Beliebig viele Unterhaltungen im Stapel auswählen und löschen
+✓ Umschalt+Maus-darüber zum schnellen Markieren mehrerer Chats
 ✓ Alles auswählen mit einem Tastenkürzel
 ✓ Zweistufige Löschbestätigung – keine versehentlichen Löschungen
+✓ Klare „Gelöscht: N Chats"-Meldung nach Abschluss
 ✓ Komplett per Tastatur bedienbar
 ✓ Funktioniert auf chatgpt.com und chat.openai.com
 ✓ Leichtgewichtig – keine Hintergrundskripte, keine Aufrufe an Drittserver

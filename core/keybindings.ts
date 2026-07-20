@@ -38,6 +38,10 @@ function cancelAutoExit() {
   if (autoExitTimer) { clearTimeout(autoExitTimer); autoExitTimer = null; }
 }
 
+function sleep(ms: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, ms));
+}
+
 async function executeDelete() {
   const ids = [...getSelectedIds()];
   if (!ids.length) return;
@@ -51,12 +55,24 @@ async function executeDelete() {
   // visible through the delete + result notification, not collapse instantly.
   clearAll();
 
+  // Show the bar at 0% right away — deleter's onProgress only fires after
+  // each chunk completes, so for small selections (the common case, well
+  // under one chunk) it would otherwise fire once right at the end and the
+  // bar would never actually be visible during the request.
+  showProgress(0, ids.length);
+
   const result = await adapter.deleter.deleteConversations(ids, (done, total) => showProgress(done, total));
 
   result.failed.forEach((failedId) => {
     const item = items.find((it) => it.id === failedId);
     if (item) adapter.getRow(item.element).style.display = '';
   });
+
+  // Most selections fit in a single chunk, so the bar would otherwise jump
+  // straight from 0% to 100% and get hidden in the same tick — the fill's
+  // width transition never gets a frame to actually render. Give it one.
+  showProgress(ids.length, ids.length);
+  await sleep(300);
 
   showDeleteResult(result.succeeded.length, result.failed.length);
 

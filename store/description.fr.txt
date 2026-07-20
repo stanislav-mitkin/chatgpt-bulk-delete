@@ -6,15 +6,16 @@ COMMENT ÇA MARCHE
 —————————————————
 
 1. Ouvrez chatgpt.com
-2. Cliquez sur le bouton « Select chats » dans la barre latérale — ou appuyez sur Ctrl+Maj+K (Cmd+Maj+K sur Mac)
-3. Survolez un chat et appuyez sur Espace, ou cliquez sur les conversations pour les sélectionner
+2. Cliquez sur le petit onglet sur le bord droit de l'écran — ou appuyez sur Ctrl+Maj+X (Cmd+Maj+X sur Mac) — pour entrer en mode de sélection
+3. Cliquez sur les chats pour les sélectionner, ou maintenez Maj enfoncé et survolez-les pour en sélectionner plusieurs à la fois
 4. Appuyez sur Entrée (confirmer → Entrée à nouveau) ou cliquez sur Supprimer pour tout effacer
 
 ⌨️ RACCOURCIS CLAVIER
 ——————————————————
 
-• Ctrl+Maj+K / Cmd+Maj+K — Activer / quitter le mode de sélection
-• Espace — Basculer la sélection du chat sous le curseur
+• Ctrl+Maj+X / Cmd+Maj+X — Activer / quitter le mode de sélection
+• Clic — Basculer un chat
+• Maj + survol — Sélectionner plusieurs chats à la fois
 • Ctrl+A / Cmd+A — Sélectionner tous les chats
 • Ctrl+D / Cmd+D — Désélectionner tout
 • Entrée → Entrée — Supprimer la sélection (confirmation en deux étapes)
@@ -24,8 +25,10 @@ COMMENT ÇA MARCHE
 ———————————————
 
 ✓ Sélection et suppression en masse d'un nombre illimité de conversations
+✓ Sélection multiple avec Maj + survol pour choisir plusieurs chats rapidement
 ✓ Tout sélectionner avec un seul raccourci
 ✓ Confirmation de suppression en deux étapes — aucune suppression accidentelle
+✓ Message clair « N discussions supprimées » à la fin
 ✓ Flux de travail entièrement au clavier
 ✓ Fonctionne sur chatgpt.com et sur chat.openai.com
 ✓ Léger — aucun script en arrière-plan, aucun appel vers des serveurs tiers

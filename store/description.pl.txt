@@ -6,15 +6,16 @@ JAK TO DZIAŁA
 —————————————
 
 1. Otwórz chatgpt.com
-2. Kliknij przycisk «Select chats» na pasku bocznym — lub naciśnij Ctrl+Shift+K (Cmd+Shift+K na Macu)
-3. Najedź kursorem na czat i naciśnij Spację, albo klikaj rozmowy, aby je zaznaczać
+2. Kliknij mały uchwyt przy prawej krawędzi ekranu — lub naciśnij Ctrl+Shift+X (Cmd+Shift+X na Macu) — aby wejść w tryb zaznaczania
+3. Klikaj czaty, aby je zaznaczać, albo przytrzymaj Shift i najeżdżaj kursorem, aby zaznaczyć kilka naraz
 4. Naciśnij Enter (potwierdź → Enter jeszcze raz) lub kliknij Usuń, aby usunąć zaznaczone
 
 ⌨️ SKRÓTY KLAWIATUROWE
 ———————————————————
 
-• Ctrl+Shift+K / Cmd+Shift+K — Wejdź / wyjdź z trybu zaznaczania
-• Spacja — Przełącz zaznaczenie czatu pod kursorem
+• Ctrl+Shift+X / Cmd+Shift+X — Wejdź / wyjdź z trybu zaznaczania
+• Kliknięcie — Przełącz zaznaczenie czatu
+• Shift + najechanie kursorem — Zaznacz kilka czatów naraz
 • Ctrl+A / Cmd+A — Zaznacz wszystkie czaty
 • Ctrl+D / Cmd+D — Wyczyść zaznaczenie
 • Enter → Enter — Usuń zaznaczone (potwierdzenie dwuetapowe)
@@ -24,8 +25,10 @@ JAK TO DZIAŁA
 ———————
 
 ✓ Masowe zaznaczanie i usuwanie dowolnej liczby rozmów
+✓ Zaznaczanie kilku czatów naraz kombinacją Shift + najechanie kursorem
 ✓ Zaznacz wszystko jednym skrótem
 ✓ Dwuetapowe potwierdzenie usunięcia — bez przypadkowych usunięć
+✓ Czytelny komunikat „Usunięto N czatów” po zakończeniu
 ✓ W pełni obsługiwany z klawiatury
 ✓ Działa na chatgpt.com i na chat.openai.com
 ✓ Lekki — bez skryptów w tle, bez połączeń z serwerami zewnętrznymi

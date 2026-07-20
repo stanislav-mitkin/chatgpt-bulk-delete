@@ -6,15 +6,16 @@ COMO FUNCIONA
 —————————————
 
 1. Abra chatgpt.com
-2. Clique no botão «Select chats» na barra lateral — ou pressione Ctrl+Shift+K (Cmd+Shift+K no Mac)
-3. Passe o cursor sobre um chat e pressione Espaço, ou clique nas conversas para selecioná-las
+2. Clique na pequena aba na borda direita da tela — ou pressione Ctrl+Shift+X (Cmd+Shift+X no Mac) — para entrar no modo de seleção
+3. Clique nos chats para selecioná-los, ou mantenha Shift pressionado e passe o cursor para selecionar vários de uma vez
 4. Pressione Enter (confirme → Enter novamente) ou clique em Excluir para remover tudo
 
 ⌨️ ATALHOS DE TECLADO
 ——————————————————
 
-• Ctrl+Shift+K / Cmd+Shift+K — Entrar / sair do modo de seleção
-• Espaço — Alternar seleção do chat sob o cursor
+• Ctrl+Shift+X / Cmd+Shift+X — Entrar / sair do modo de seleção
+• Clique — Alternar seleção do chat
+• Shift + passar o cursor — Selecionar vários chats de uma vez
 • Ctrl+A / Cmd+A — Selecionar todos os chats
 • Ctrl+D / Cmd+D — Limpar seleção
 • Enter → Enter — Excluir selecionados (confirmação em dois passos)
@@ -24,8 +25,10 @@ COMO FUNCIONA
 ————————
 
 ✓ Seleção e exclusão em massa de qualquer número de conversas
+✓ Seleção múltipla com Shift + passar o cursor para escolher vários chats rápido
 ✓ Selecionar tudo com um único atalho
 ✓ Confirmação de exclusão em dois passos — sem exclusões acidentais
+✓ Mensagem clara "N chats excluídos" ao final
 ✓ Fluxo de trabalho totalmente pelo teclado
 ✓ Funciona em chatgpt.com e em chat.openai.com
 ✓ Leve — sem scripts em segundo plano, sem chamadas a servidores de terceiros

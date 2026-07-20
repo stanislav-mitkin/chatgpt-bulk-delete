@@ -6,15 +6,16 @@ NASIL ÇALIŞIR
 —————————————
 
 1. chatgpt.com adresini aç
-2. Kenar çubuğundaki «Select chats» düğmesine tıkla — ya da Ctrl+Shift+K tuşlarına bas (Mac'te Cmd+Shift+K)
-3. Fareyi bir sohbetin üzerine getir ve Boşluk tuşuna bas ya da seçmek için konuşmalara tıkla
+2. Ekranın sağ kenarındaki küçük sekmeye tıkla — ya da Ctrl+Shift+X tuşlarına bas (Mac'te Cmd+Shift+X) — seçim moduna girmek için
+3. Seçmek için sohbetlere tıkla, ya da Shift'e basılı tutup fareyi üzerlerine getirerek birden fazlasını aynı anda seç
 4. Enter'a bas (onayla → tekrar Enter) ya da Sil düğmesine tıkla
 
 ⌨️ KLAVYE KISAYOLLARI
 ——————————————————
 
-• Ctrl+Shift+K / Cmd+Shift+K — Seçim moduna gir / çık
-• Boşluk — İmleç altındaki sohbetin seçimini aç/kapat
+• Ctrl+Shift+X / Cmd+Shift+X — Seçim moduna gir / çık
+• Tıklama — Bir sohbetin seçimini aç/kapat
+• Shift + üzerine gelme — Birden fazla sohbeti aynı anda seç
 • Ctrl+A / Cmd+A — Tüm sohbetleri seç
 • Ctrl+D / Cmd+D — Seçimi temizle
 • Enter → Enter — Seçilenleri sil (iki adımlı onay)
@@ -24,8 +25,10 @@ NASIL ÇALIŞIR
 ———————————
 
 ✓ İstediğin sayıda konuşmayı toplu seç ve sil
+✓ Shift + üzerine gelme ile birden fazla sohbeti hızlıca seç
 ✓ Tek kısayolla tümünü seç
 ✓ İki adımlı silme onayı — yanlışlıkla silme yok
+✓ Tamamlandığında net "N sohbet silindi" sonuç mesajı
 ✓ Tamamen klavyeyle kullanılabilir
 ✓ chatgpt.com ve chat.openai.com'da çalışır
 ✓ Hafif — arka plan betiği yok, üçüncü taraf sunuculara bağlantı yok
